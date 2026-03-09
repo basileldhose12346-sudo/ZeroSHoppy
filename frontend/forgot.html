@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Forgot Password</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+  <style>
+    body{
+      margin:0;
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#111;
+      font-family:Poppins,sans-serif;
+      color:#fff;
+    }
+    .box{
+      background:#222;
+      padding:30px;
+      width:320px;
+      border-radius:12px;
+      text-align:center;
+    }
+    input{
+      width:70%;
+      padding:10px;
+      margin:8px 0;
+      border-radius:8px;
+      border:none;
+    }
+    button{
+      width:40%;
+      padding:10px;
+      margin-top:10px;
+      border:none;
+      background:#fff;
+      border-radius:8px;
+      font-weight:600;
+      cursor:pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2>Reset Password</h2>
+
+  <input type="text" id="username" placeholder="Username">
+  <input type="password" id="newpass" placeholder="New Password">
+  <input type="password" id="confirmpass" placeholder="Confirm Password">
+
+
+  <button onclick="resetPassword()">Reset</button>
+</div>
+
+<script src="auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shoes — ZeroShoppy</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+body{margin:0;font-family:Poppins;background:#fafafa}
+
+.nav{background:#fff;border-bottom:1px solid #e7e7e7;position:sticky;top:0}
+
+.container{max-width:1180px;margin:auto;padding:0 18px}
+
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+
+.brand{font-weight:700;display:flex;flex-direction:column}
+.brand .title{font-size:18px}
+.brand .moto{font-size:12px;color:#777}
+
+.nav-links{display:flex;gap:18px}
+.nav-links a{text-decoration:none;color:#777}
+
+.menu-btn{font-size:22px;cursor:pointer}
+
+.search{border:1px solid #ddd;padding:8px 12px;border-radius:999px}
+
+.grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;padding:30px}
+
+.product{background:#fff;padding:14px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
+
+.product img{width:100%;height:90px;object-fit:contain}
+
+button{background:#111;color:white;border:none;padding:6px;border-radius:6px;cursor:pointer;margin-top:6px}
+
+.side-menu{
+position:fixed;
+top:0;
+left:-260px;
+width:260px;
+height:100%;
+background:#111;
+color:white;
+padding:20px;
+transition:0.3s;
+}
+
+.side-menu a{display:block;color:white;margin:15px 0;text-decoration:none}
+
+</style>
+</head>
+
+<body>
+
+<div id="sideMenu" class="side-menu">
+
+<h3 id="userName"></h3>
+<p id="userEmail"></p>
+
+<a href="shoes.html">Shoes</a>
+<a href="watches.html">Watches</a>
+<a href="cart.html">Cart</a>
+
+<hr>
+
+<a onclick="logout()" style="cursor:pointer">Logout</a>
+
+</div>
+
+<header class="nav">
+<div class="container nav-inner">
+
+<div style="display:flex;gap:10px;align-items:center">
+<div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+<div class="brand">
+<span class="title">ZeroShoppy</span>
+<span class="moto">Best Quality for Best Price</span>
+</div>
+</div>
+
+<nav class="nav-links">
+<a href="shoes.html">Shoes</a>
+<a href="watches.html">Watches</a>
+<a href="cart.html">Cart</a>
+</nav>
+
+<div class="search">
+<input type="search" placeholder="Search" id="search">
+</div>
+
+</div>
+</header>
+
+<div class="grid" id="shoeList"></div>
+
+<script>
+
+const user=JSON.parse(localStorage.getItem("currentUser"))
+
+if(!user) window.location.href="login.html"
+
+document.getElementById("userName").innerText=user.username
+document.getElementById("userEmail").innerText=user.shipping?.email || ""
+
+function toggleMenu(){
+const menu=document.getElementById("sideMenu")
+menu.style.left=menu.style.left==="0px"?"-260px":"0px"
+}
+
+function logout(){
+localStorage.removeItem("currentUser")
+window.location.href="login.html"
+}
+
+async function loadShoes(){
+
+const res=await fetch("http://localhost:5000/api/products")
+const products=await res.json()
+
+const container=document.getElementById("shoeList")
+container.innerHTML=""
+
+products.forEach(p=>{
+
+if(p.category==="watches"){
+
+container.innerHTML+=`
+<div class="product">
+
+<img src="${p.image}">
+
+<b>${p.name}</b>
+
+₹${p.price}
+
+<button onclick='addToCart(${JSON.stringify(p)})'>Add to Cart</button>
+
+</div>
+`
+
+}
+
+})
+
+}
+
+function addToCart(product){
+
+let cart=JSON.parse(localStorage.getItem("cart")) || []
+
+cart.push(product)
+
+localStorage.setItem("cart",JSON.stringify(cart))
+
+alert("Added to cart")
+
+}
+
+loadShoes()
+
+document.getElementById("search").addEventListener("input",function(){
+
+let value=this.value.toLowerCase()
+
+document.querySelectorAll(".product").forEach(card=>{
+
+card.style.display=
+card.innerText.toLowerCase().includes(value)
+? ""
+: "none"
+
+})
+
+})
+
+</script>
+
+</body>
+</html>

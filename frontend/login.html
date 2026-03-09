@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login - ZeroShoppy</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+font-family:"Poppins",sans-serif;
+height:100vh;
+}
+
+/* BACKGROUND */
+
+.bg{
+position:fixed;
+inset:0;
+background:url("images/bg.jpg") center/cover no-repeat;
+filter:blur(10px);
+z-index:-1;
+}
+
+/* NAVBAR */
+
+.nav{
+background:#fff;
+border-bottom:1px solid #e7e7e7;
+position:sticky;
+top:0;
+z-index:100;
+box-shadow:0 2px 6px rgba(0,0,0,0.08);
+}
+
+.container{
+max-width:1180px;
+margin:auto;
+padding:14px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.brand{
+font-weight:700;
+display:flex;
+flex-direction:column;
+}
+
+.brand .title{
+font-size:18px;
+}
+
+.brand .moto{
+font-size:12px;
+color:gray;
+}
+
+.nav-links{
+display:flex;
+gap:18px;
+}
+
+.nav-links a{
+text-decoration:none;
+color:gray;
+font-size:14px;
+}
+
+.search{
+border:1px solid #ddd;
+padding:8px 12px;
+border-radius:999px;
+}
+
+.search input{
+border:0;
+outline:none;
+background:transparent;
+}
+
+/* LOGIN BOX */
+
+.wrapper{
+height:calc(100vh - 70px);
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.login-box{
+width:360px;
+background:rgba(255,255,255,0.9);
+padding:25px;
+border-radius:12px;
+box-shadow:0 0 25px rgba(0,0,0,0.3);
+text-align:center;
+}
+
+.form-group{
+text-align:left;
+margin-bottom:14px;
+}
+
+.form-group input{
+width:100%;
+padding:9px;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+.login-btn{
+width:100%;
+padding:10px;
+background:#111;
+color:#fff;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+.links{
+margin-top:14px;
+font-size:13px;
+display:flex;
+justify-content:space-between;
+}
+
+#msg{
+color:red;
+margin-top:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+
+<!-- NAVBAR -->
+
+<header class="nav">
+<div class="container">
+
+<div class="brand">
+<span class="title">ZeroShoppy</span>
+<span class="moto">Best Quality for Best Price</span>
+</div>
+
+<nav class="nav-links">
+<a href="newindex.html">Home</a>
+<a href="#">Shoes</a>
+<a href="#">Watches</a>
+<a href="register.html">Register</a>
+</nav>
+
+<div class="search">
+<input type="search" placeholder="Search">
+</div>
+
+</div>
+</header>
+
+<!-- LOGIN FORM -->
+
+<div class="wrapper">
+
+<div class="login-box">
+
+<h2>Login</h2>
+
+<div class="form-group">
+<input id="user" placeholder="Username">
+</div>
+
+<div class="form-group">
+<input id="pass" type="password" placeholder="Password">
+</div>
+
+<button class="login-btn" onclick="login()">Login</button>
+
+<div id="msg"></div>
+
+<div class="links">
+<a href="register.html">Create Account</a>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+async function login(){
+
+if(user.value==="basiladmin" && pass.value==="abinnivas"){
+
+localStorage.setItem("currentUser",JSON.stringify({
+_id:"admin",
+username:"basiladmin",
+role:"admin"
+}))
+
+window.location="admin.html"
+return
+}
+
+const res=await fetch("http://localhost:5000/api/users/login",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+username:user.value,
+password:pass.value
+})
+
+})
+
+const data=await res.json()
+
+if(!res.ok){
+alert("Invalid username or password")
+return
+}
+
+localStorage.setItem("currentUser",JSON.stringify(data.user))
+
+if(data.user.role==="admin"){
+window.location="admin.html"
+}else{
+window.location="newindex.html"
+}
+
+}
+
+</script>
+
+</body>
+</html>

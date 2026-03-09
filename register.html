@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register - ZeroShoppy</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: #f5f5f5;
+      height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .bg{
+      position: fixed;
+      inset: 0;
+      background: url("images/bg.jpg") center/cover no-repeat;
+      filter: blur(10px);
+      z-index: -1;
+    }
+
+    /* ================= NAVBAR ================= */
+    .nav{
+      background: #fff;
+      border-bottom: 1px solid #e7e7e7;
+      position: sticky;
+      top: 0;
+      z-index: 99;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .container{
+      max-width:1180px;
+      margin:auto;
+      padding:14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .backbtn {
+      font-size: 14px;
+      color: #555;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 6px;
+      background: #eee;
+      user-select: none;
+      margin-right: 10px;
+    }
+    .backbtn:hover { background: #ddd; }
+
+    .brand{
+      font-weight:700;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
+    .brand .title{font-size:18px}
+    .brand .moto{font-size:12px;color:gray;margin-top:2px}
+
+    .nav-links{
+      display:flex;
+      gap:18px;
+    }
+    .nav-links a{
+      text-decoration:none;
+      color:gray;
+      font-size:14px;
+      font-weight:500;
+    }
+
+    /* ================= FORM ================= */
+    .wrapper{
+      margin-top: 120px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 20px;
+    }
+
+    form {
+      width: 480px;
+      background: rgba(255,255,255,0.90);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.3);
+    }
+
+    h2 { text-align: center; margin-bottom: 20px; }
+
+    label { font-weight: 600; margin-top: 12px; display: block; }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .row { display: flex; gap: 10px; }
+    .row div { flex: 1; }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      background: #111;
+      color: white;
+      border: none;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    button:hover { opacity: 0.9; }
+  </style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+
+<!-- ================= NAVBAR ================= -->
+<header class="nav">
+  <div class="container nav-inner">
+
+    <span class="backbtn" onclick="history.back()">⬅ Back</span>
+
+    <div class="brand">
+      <span class="title">ZeroShoppy</span>
+      <span class="moto">Best Quality for Best Price</span>
+    </div>
+
+    <nav class="nav-links">
+      <a href="newindex.html">Home</a>
+      <a href="login.html">Login</a>
+      <a href="register.html">Register</a>
+      <a href="#">Shoes</a>
+      <a href="#">Watches</a>
+    </nav>
+
+  </div>
+</header>
+
+<!-- ================= CENTERED FORM ================= -->
+<div class="wrapper">
+<form id="regForm">
+
+  <h2>Create Your Account</h2>
+
+  <label>Username</label>
+  <input id="username" type="text" minlength="5" maxlength="12" required>
+
+  <label>Password</label>
+  <input id="password" type="password" minlength="5" required>
+
+  <label>Confirm Password</label>
+  <input id="confirmPassword" type="password" minlength="5" required>
+
+  <label>Name</label>
+  <input id="name" required>
+
+  <label>Email</label>
+  <input id="email" type="email" required>
+
+  <label>Shipping Address</label>
+  <textarea id="address" rows="4" required></textarea>
+
+  <label>ZIP Code</label>
+  <input id="zip" type="text" maxlength="6" pattern="[0-9]{6}" required>
+
+  <div class="row">
+    <div>
+      <label>City</label>
+      <input id="city" required>
+    </div>
+
+    <div>
+      <label>State</label>
+      <input id="state" required>
+    </div>
+  </div>
+
+  <label>Country</label>
+  <select id="country" required>
+    <option value="">Choose</option>
+    <option>India</option>
+    <option>USA</option>
+    <option>Brazil</option>
+    <option>UAE</option>
+    <option>Argentina</option>
+    <option>Portugal</option>
+  </select>
+
+  <label>Preferred Languages</label>
+  <select id="languages" multiple style="height:80px;">
+    <option>English</option>
+    <option>Hindi</option>
+    <option>Malayalam</option>
+    <option>Tamil</option>
+  </select>
+
+  <button type="submit">Register</button>
+</form>
+</div>
+
+<!-- ================= BACKEND CONNECTION ================= -->
+<script>
+document.getElementById("regForm").addEventListener("submit", async function(e){
+  e.preventDefault();
+
+  const pass = password.value;
+  const confirm = confirmPassword.value;
+
+  if (pass !== confirm) {
+    alert("Passwords do not match!");
+    return;
+  }
+
+  const shipping = {
+    name: name.value,
+    email: email.value,
+    address: address.value,
+    pincode: zip.value,
+    city: city.value,
+    state: state.value,
+    country: country.value,
+    languages: Array.from(languages.selectedOptions).map(o => o.value)
+  };
+
+  const body = {
+    username: username.value,
+    password: pass,
+    shipping
+  };
+
+  try {
+    const res = await fetch("http://localhost:5000/api/users/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.message || "Registration failed");
+      return;
+    }
+
+    alert("Registration successful!");
+    window.location.href = "login.html";
+
+  } catch (err) {
+    alert("Network Error / Server not reachable");
+  }
+
+});
+</script>
+
+</body>
+</html>
