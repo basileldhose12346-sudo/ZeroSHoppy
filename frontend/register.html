@@ -18,7 +18,7 @@
     .bg{
       position: fixed;
       inset: 0;
-      background: url("images/bg.jpg") center/cover no-repeat;
+      background: url("http://localhost:5000/images/bg.jpg") center/cover no-repeat;
       filter: blur(10px);
       z-index: -1;
     }
@@ -140,11 +140,7 @@
     </div>
 
     <nav class="nav-links">
-      <a href="newindex.html">Home</a>
-      <a href="login.html">Login</a>
-      <a href="register.html">Register</a>
-      <a href="#">Shoes</a>
-      <a href="#">Watches</a>
+      <a href="http://localhost:5000/login.html">Login</a>
     </nav>
 
   </div>
@@ -225,6 +221,14 @@ document.getElementById("regForm").addEventListener("submit", async function(e){
     return;
   }
 
+  // Password must contain at least one number and one special character
+  const hasNumber = /[0-9]/.test(pass);
+  const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\|,.<>\/?]/.test(pass);
+  if(!hasNumber || !hasSpecial){
+    alert("Password must contain at least one number and one special character (e.g. @, #, !)");
+    return;
+  }
+
   const shipping = {
     name: name.value,
     email: email.value,
@@ -257,7 +261,7 @@ document.getElementById("regForm").addEventListener("submit", async function(e){
     }
 
     alert("Registration successful!");
-    window.location.href = "login.html";
+    window.location.href = "http://localhost:5000/login.html";
 
   } catch (err) {
     alert("Network Error / Server not reachable");

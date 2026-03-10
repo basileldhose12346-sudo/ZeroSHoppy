@@ -47,4 +47,23 @@ router.get("/", async (req,res)=>{
   const users = await User.find();
   res.json(users);
 });
+
+// RESET PASSWORD
+router.post("/reset-password", async (req, res) => {
+  try {
+    const { username, newPassword } = req.body;
+
+    const user = await User.findOne({ username });
+    if (!user) return res.status(404).json({ message: "Username not found" });
+
+    const hashed = await bcrypt.hash(newPassword, 10);
+    user.password = hashed;
+    await user.save();
+
+    res.json({ message: "Password reset successful" });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 module.exports = router;

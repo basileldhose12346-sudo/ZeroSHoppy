@@ -215,7 +215,7 @@ Revenue
 <option value="watches">Watches</option>
 </select>
 
-<input id="pimage" placeholder="Image URL">
+<div style="margin:5px"><label style="font-weight:600">Product Image</label><br><input type="file" id="pimage" accept="image/*" onchange="previewImage(event)"><br><img id="imagePreview" src="" style="display:none;width:80px;height:80px;object-fit:cover;border-radius:8px;margin-top:6px;border:1px solid #ddd;"></div>
 
 <!-- WATCH STOCK -->
 
@@ -301,41 +301,74 @@ watchStock.style.display="block"
 
 }
 
+/* IMAGE PREVIEW */
+
+function previewImage(event){
+const file = event.target.files[0]
+if(!file) return
+const reader = new FileReader()
+reader.onload = e => {
+  imagePreview.src = e.target.result
+  imagePreview.style.display = "block"
+}
+reader.readAsDataURL(file)
+}
+
 /* ADD PRODUCT */
 
 async function addProduct(){
 
-let body={
+if(!pimage.files[0]){
+alert("Please select a product image")
+return
+}
+
+let data={
 name:pname.value,
 price:Number(pprice.value),
-category:pcategory.value,
-image:pimage.value
+category:pcategory.value
 }
 
 if(pcategory.value==="shoes"){
 
-body.sizes=[
-
+data.sizes=[
 {size:7,stock:Number(s7.value||0)},
 {size:8,stock:Number(s8.value||0)},
 {size:9,stock:Number(s9.value||0)},
 {size:10,stock:Number(s10.value||0)}
-
 ]
 
 }else{
 
-body.stock=Number(pstock.value)
+data.stock=Number(pstock.value)
 
 }
 
-await fetch("http://localhost:5000/api/products/add",{
+const formData = new FormData()
+formData.append("image", pimage.files[0])
+formData.append("data", JSON.stringify(data))
 
+const res = await fetch("http://localhost:5000/api/products/add",{
 method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify(body)
-
+body:formData
 })
+
+const result = await res.json()
+
+if(!res.ok){
+alert("Failed to add product: " + (result.error || "Unknown error"))
+return
+}
+
+alert("Product added successfully!")
+
+// Reset form
+pname.value=""
+pprice.value=""
+pstock.value=""
+pimage.value=""
+imagePreview.style.display="none"
+imagePreview.src=""
 
 loadProducts()
 

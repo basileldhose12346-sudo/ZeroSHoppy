@@ -2,6 +2,7 @@ require('dotenv').config();
 const express=require('express');
 const  bodyparser=require('body-parser');
 const mongoose=require('mongoose');
+const dns = require("node:dns");
 const cors=require('cors');
 const helmet=require('helmet');
 const users=require('./src/routes/user.routes');
@@ -13,7 +14,21 @@ app.use(bodyparser.urlencoded({
 
 var port = 4321;
 
-mongoose.connect(process.env.MONGO_URI,).then(()=>{
+const mongoUri = process.env.MONGO_URI || process.env.MONGO_URL;
+if (!mongoUri) {
+  throw new Error("Missing MongoDB URI. Set MONGO_URI or MONGO_URL in .env");
+}
+
+dns.setDefaultResultOrder("ipv4first");
+const mongoDnsServers = (process.env.MONGO_DNS_SERVERS || "8.8.8.8,1.1.1.1")
+  .split(",")
+  .map((ip) => ip.trim())
+  .filter(Boolean);
+if (mongoDnsServers.length > 0) {
+  dns.setServers(mongoDnsServers);
+}
+
+mongoose.connect(mongoUri, { serverSelectionTimeoutMS: 10000, family: 4 }).then(()=>{
   console.log("DataBase Connected Successfully");
 }).catch((err)=>{
   console.log("Error Connecting to database");

@@ -1,14 +1,34 @@
 const express = require("express");
 const Product = require("../models/Product");
+const upload = require("../middleware/upload");
 const router = express.Router();
 
-// ADD PRODUCT
-router.post("/add", async (req, res) => {
+// ADD PRODUCT (with image upload)
+router.post("/add", upload.single("image"), async (req, res) => {
   try {
-    const product = await Product.create(req.body);
+
+    console.log("Body:", req.body);
+    console.log("File:", req.file);
+
+    if (!req.body.data) {
+      return res.status(400).json({ error: "No product data received" });
+    }
+
+    const data = JSON.parse(req.body.data);
+
+    if (req.file) {
+      // Full URL so it works when frontend is opened via file://
+      data.image = "http://localhost:5000/images/" + req.file.filename;
+    } else {
+      data.image = "";
+    }
+
+    const product = await Product.create(data);
     res.json(product);
+
   } catch (err) {
-    res.status(500).json({ error: err });
+    console.error("Add product error:", err.message);
+    res.status(500).json({ error: err.message });
   }
 });
 

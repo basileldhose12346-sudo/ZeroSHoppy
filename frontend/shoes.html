@@ -11,112 +11,104 @@
 
 body{margin:0;font-family:Poppins;background:#fafafa}
 
-.nav{background:#fff;border-bottom:1px solid #e7e7e7;position:sticky;top:0}
-
+.nav{background:#fff;border-bottom:1px solid #e7e7e7;position:sticky;top:0;z-index:40;}
 .container{max-width:1180px;margin:auto;padding:0 18px}
-
 .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
-
 .brand{font-weight:700;display:flex;flex-direction:column}
 .brand .title{font-size:18px}
 .brand .moto{font-size:12px;color:#777}
-
-.nav-links{display:flex;gap:18px}
-.nav-links a{text-decoration:none;color:#777}
-
-.menu-btn{font-size:22px;cursor:pointer}
-
-.search{border:1px solid #ddd;padding:8px 12px;border-radius:999px}
+.menu-btn{font-size:22px;cursor:pointer;margin-right:15px}
+.search{border:1px solid #ddd;padding:8px 12px;border-radius:999px;display:flex;} .search input{border:0;outline:none;background:transparent;}
 
 .grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;padding:30px}
-
-.grid-row{
-display:grid;
-grid-template-columns:repeat(6,1fr);
-gap:16px;
-}
 
 .product{
 background:#fff;
 padding:14px;
 border-radius:12px;
-box-shadow:var(--shadow);
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
 display:flex;
 flex-direction:column;
-height:240px;
+height:260px;
 }
+.product img{width:100%;height:90px;object-fit:contain;border-radius:8px;margin-bottom:6px;}
+.product b{font-size:13px;margin-bottom:4px;}
+.product-price{font-weight:600;margin-bottom:6px;font-size:13px;}
+.product-bottom{margin-top:auto;display:flex;flex-direction:column;gap:4px;}
+.product-bottom button{
+background:#111;color:white;border:none;
+padding:5px;border-radius:6px;cursor:pointer;font-size:12px;
+}
+.product-bottom select{padding:4px;border-radius:6px;border:1px solid #ddd;font-size:12px;}
 
-.product img{width:100%;height:90px;object-fit:contain}
-
-button{background:#111;color:white;border:none;padding:6px;border-radius:6px;cursor:pointer;margin-top:6px}
-
+/* SIDEBAR */
 .side-menu{
-position:fixed;
-top:0;
-left:-260px;
-width:260px;
-height:100%;
-background:#111;
-color:white;
-padding:20px;
-transition:left 0.3s;
+position:fixed;top:0;left:-260px;width:260px;height:100%;
+background:#111;color:white;padding:20px;
+transition:left 0.3s;z-index:2000;
+display:flex;flex-direction:column;
+box-sizing:border-box;
+overflow:hidden;
 }
+.side-menu.open{left:0;}
+.side-menu a{display:block;color:white;margin:15px 0;text-decoration:none;font-size:15px;}
+.side-menu .side-bottom{margin-top:auto;border-top:1px solid #333;padding-top:15px;}
+.side-menu .side-bottom a{color:#ff6b6b;}
 
-.side-menu.open{
-left:0;
+/* POPUP */
+.popup{
+position:fixed;top:30px;left:50%;
+transform:translateX(-50%) translateY(-80px);
+background:#fff;border-radius:12px;padding:16px 28px;
+box-shadow:0 8px 30px rgba(0,0,0,0.15);
+display:flex;align-items:center;gap:12px;
+font-weight:600;font-size:15px;z-index:9999;
+transition:transform 0.4s cubic-bezier(.2,.9,.2,1);
 }
-
-.side-menu a{
-display:block;
-color:white;
-margin:15px 0;
-text-decoration:none
+.popup.show{transform:translateX(-50%) translateY(0);}
+.popup .tick{
+width:32px;height:32px;background:#22c55e;
+border-radius:50%;display:flex;align-items:center;
+justify-content:center;color:white;font-size:18px;
 }
-
 </style>
 </head>
 
-<body align="center">
+<body>
 
+<!-- POPUP -->
+<div id="popup" class="popup">
+  <div class="tick">✓</div>
+  <span id="popupMsg">Done!</span>
+</div>
+
+<!-- SIDEBAR -->
 <div id="sideMenu" class="side-menu">
-
-<h3 id="userName"></h3>
-<p id="userEmail"></p>
-
-<a href="newindex.html">Home</a>
-<a href="shoes.html">Shoes</a>
-<a href="watches.html">Watches</a>
-<a href="cart.html">Cart</a>
-
-<hr>
-
-<a onclick="logout()" style="cursor:pointer">Logout</a>
-
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+    <h3 id="userName" style="margin:0"></h3>
+    <span onclick="toggleMenu()" style="cursor:pointer;font-size:22px;color:white;">✕</span>
+  </div>
+  <a href="http://localhost:5000/newindex.html">🏠 Home</a>
+  <a href="http://localhost:5000/shoes.html">👟 Shoes</a>
+  <a href="http://localhost:5000/watches.html">⌚ Watches</a>
+  <a href="http://localhost:5000/cart.html">🛒 Cart</a>
+  <div class="side-bottom">
+    <a onclick="logout()" style="cursor:pointer">🚪 Logout</a>
+  </div>
 </div>
 
 <header class="nav">
 <div class="container nav-inner">
-
-<div style="display:flex;gap:10px;align-items:center">
-<div class="menu-btn" onclick="toggleMenu()">☰</div>
-
-<div class="brand">
-<span class="title">ZeroShoppy</span>
-<span class="moto">Best Quality for Best Price</span>
-</div>
-</div>
-
-<nav class="nav-links">
-<a href="newindex.html">Home</a>
-<a href="shoes.html">Shoes</a>
-<a href="watches.html">Watches</a>
-<a href="cart.html">Cart</a>
-</nav>
-
-<div class="search">
-<input type="search" placeholder="Search" id="search">
-</div>
-
+  <div style="display:flex;gap:10px;align-items:center">
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+    <div class="brand">
+      <span class="title">ZeroShoppy</span>
+      <span class="moto">Best Quality for Best Price</span>
+    </div>
+  </div>
+  <div class="search">
+    <input type="search" placeholder="Search" id="search">
+  </div>
 </div>
 </header>
 
@@ -125,83 +117,93 @@ text-decoration:none
 <script>
 
 const user=JSON.parse(localStorage.getItem("currentUser"))
-
-if(!user) window.location.href="login.html"
+if(!user){ window.location.href="http://localhost:5000/login.html"; throw new Error("Not logged in"); }
 
 document.getElementById("userName").innerText=user.username
-document.getElementById("userEmail").innerText=user.shipping?.email || ""
 
 function toggleMenu(){
-document.getElementById("sideMenu").classList.toggle("open")
+  document.getElementById("sideMenu").classList.toggle("open")
 }
 
 function logout(){
-localStorage.removeItem("currentUser")
-window.location.href="login.html"
+  localStorage.removeItem("currentUser")
+  window.location.href="http://localhost:5000/login.html"
+}
+
+function showPopup(msg){
+  document.getElementById("popupMsg").innerText=msg
+  const p=document.getElementById("popup")
+  p.classList.add("show")
+  setTimeout(()=>p.classList.remove("show"),2500)
+}
+
+// Store products in a map to avoid JSON stringify issues in onclick
+const productMap={}
+
+function addToCart(id){
+  const product=productMap[id]
+  if(!product) return
+  let cart=JSON.parse(localStorage.getItem("cart"))||[]
+  // Store with selected size if applicable
+  const sizeSelect=document.getElementById("size-"+id)
+  const cartItem={...product, size: sizeSelect ? sizeSelect.value : null}
+  cart.push(cartItem)
+  localStorage.setItem("cart",JSON.stringify(cart))
+  showPopup("Added to cart!")
+}
+
+async function buy(productId){
+  if(user.role==="admin"){ alert("Admin cannot place orders"); return }
+  let sizeSelect=document.getElementById("size-"+productId)
+  let size=sizeSelect?sizeSelect.value:null
+  const res=await fetch("http://localhost:5000/api/orders/place",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({productId,userId:user._id,quantity:1,size})
+  })
+  const data=await res.json()
+  if(res.ok){ showPopup("Order placed successfully!"); loadShoes() }
+  else alert(data.message)
 }
 
 async function loadShoes(){
+  const res=await fetch("http://localhost:5000/api/products")
+  const products=await res.json()
+  const container=document.getElementById("shoeList")
+  container.innerHTML=""
 
-const res=await fetch("http://localhost:5000/api/products")
-const products=await res.json()
-
-const container=document.getElementById("shoeList")
-container.innerHTML=""
-
-products.forEach(p=>{
-
-if(p.category==="shoes"){
-
-container.innerHTML+=`
-<div class="product">
-
-<img src="${p.image}">
-
-<b>${p.name}</b>
-
-₹${p.price}
-
-<button onclick='addToCart(${JSON.stringify(p)})'>Add to Cart</button>
-
-</div>
-`
-
-}
-
-})
-
-}
-
-function addToCart(product){
-
-let cart=JSON.parse(localStorage.getItem("cart")) || []
-
-cart.push(product)
-
-localStorage.setItem("cart",JSON.stringify(cart))
-
-alert("Added to cart")
-
+  products.forEach(p=>{
+    productMap[p._id]=p
+    if(p.category==="shoes"){
+      let sizeOptions=""
+      if(p.sizes && p.sizes.length>0){
+        p.sizes.forEach(s=>{
+          if(s.stock>0) sizeOptions+=`<option value="${s.size}">${s.size} (Stock:${s.stock})</option>`
+        })
+      }
+      container.innerHTML+=`
+        <div class="product">
+          <img src="${p.image}">
+          <b>${p.name}</b>
+          <div class="product-price">₹${p.price}</div>
+          <div class="product-bottom">
+            <select id="size-${p._id}">${sizeOptions}</select>
+            <button onclick="buy('${p._id}')">Buy Now</button>
+            <button onclick="addToCart('${p._id}')">Add to Cart</button>
+          </div>
+        </div>`
+    }
+  })
 }
 
 loadShoes()
 
 document.getElementById("search").addEventListener("input",function(){
-
-let value=this.value.toLowerCase()
-
-document.querySelectorAll(".product").forEach(card=>{
-
-card.style.display=
-card.innerText.toLowerCase().includes(value)
-? ""
-: "none"
-
+  let value=this.value.toLowerCase()
+  document.querySelectorAll(".product").forEach(card=>{
+    card.style.display=card.innerText.toLowerCase().includes(value)?"":"none"
+  })
 })
-
-})
-
 </script>
-
 </body>
 </html>
