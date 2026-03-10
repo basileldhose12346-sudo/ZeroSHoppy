@@ -183,9 +183,11 @@ async function loadShoes(){
       }
       container.innerHTML+=`
         <div class="product">
-          <img src="${p.image}">
-          <b>${p.name}</b>
-          <div class="product-price">₹${p.price}</div>
+          <a href="http://localhost:5000/product-${p._id}.html" style="text-decoration:none;color:inherit;">
+            <img src="${p.image}">
+            <b>${p.name}</b>
+            <div class="product-price">₹${p.price}</div>
+          </a>
           <div class="product-bottom">
             <select id="size-${p._id}">${sizeOptions}</select>
             <button onclick="buy('${p._id}')">Buy Now</button>

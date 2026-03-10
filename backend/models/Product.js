@@ -9,7 +9,13 @@ const productSchema = new mongoose.Schema({
   name: String,
   price: Number,
   category: String,
+  description: String,
+
+  /* primary image (first of gallery) */
   image: String,
+
+  /* gallery images (3-5 uploaded by admin) */
+  images: [String],
 
   /* for watches */
   stock: Number,
@@ -19,4 +25,4 @@ const productSchema = new mongoose.Schema({
 
 },{timestamps:true});
 
-module.exports = mongoose.model("Product",productSchema);
+module.exports = mongoose.model("Product", productSchema);

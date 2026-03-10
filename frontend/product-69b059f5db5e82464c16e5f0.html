@@ -1,39 +1,9 @@
-const express = require("express");
-const Product = require("../models/Product");
-const upload = require("../middleware/upload");
-const path = require("path");
-const fs = require("fs");
-const router = express.Router();
-
-/* ── HELPER: generate individual product page ── */
-function generateProductPage(product) {
-  const frontendDir = path.join(__dirname, "../../frontend");
-  const filePath = path.join(frontendDir, `product-${product._id}.html`);
-
-  const imagesArr = product.images && product.images.length > 0
-    ? product.images
-    : [product.image];
-
-  const galleryImgs = imagesArr.map((img, i) =>
-    `<img src="${img}" class="thumb ${i===0?'active':''}" onclick="setMain(this,'${img}')" alt="Image ${i+1}">`
-  ).join("");
-
-  const mainImg = imagesArr[0] || "";
-
-  const sizesHTML = product.category === "shoes" && product.sizes && product.sizes.length > 0
-    ? product.sizes.map(s =>
-        `<button class="size-btn ${s.stock===0?'out':''}" onclick="selectSize(this,'${s.size}')" ${s.stock===0?'disabled':''}>
-          ${s.size}${s.stock===0?'<span class="sold-line"></span>':''}
-        </button>`
-      ).join("")
-    : "";
-
-  const html = `<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${product.name} — ZeroShoppy</title>
+<title>New Balance Ellipse — ZeroShoppy</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--dark:#0e0e0e;--accent:#c8f230;--border:#e8e8e8;--muted:#888;}
@@ -143,38 +113,44 @@ if(!currentUser){window.location.href="http://localhost:5000/login.html";throw n
 
 <div class="breadcrumb">
   <a href="http://localhost:5000/newindex.html">Home</a> /
-  <a href="http://localhost:5000/${product.category}.html">${product.category.charAt(0).toUpperCase()+product.category.slice(1)}</a> /
-  <span>${product.name}</span>
+  <a href="http://localhost:5000/shoes.html">Shoes</a> /
+  <span>New Balance Ellipse</span>
 </div>
 
 <div class="product-wrap">
   <!-- GALLERY -->
   <div class="gallery">
     <div class="gallery-main">
-      <img id="mainImg" src="${mainImg}" alt="${product.name}">
+      <img id="mainImg" src="http://localhost:5000/images/1773165045522-ellipse.png" alt="New Balance Ellipse">
     </div>
     <div class="gallery-thumbs">
-      ${galleryImgs}
+      <img src="http://localhost:5000/images/1773165045522-ellipse.png" class="thumb active" onclick="setMain(this,'http://localhost:5000/images/1773165045522-ellipse.png')" alt="Image 1"><img src="http://localhost:5000/images/1773165045524-welps13w_nb_02_i.png" class="thumb " onclick="setMain(this,'http://localhost:5000/images/1773165045524-welps13w_nb_02_i.png')" alt="Image 2"><img src="http://localhost:5000/images/1773165045535-welps13w_nb_10_i.png" class="thumb " onclick="setMain(this,'http://localhost:5000/images/1773165045535-welps13w_nb_10_i.png')" alt="Image 3"><img src="http://localhost:5000/images/1773165045541-welps13w_nb_14_i.png" class="thumb " onclick="setMain(this,'http://localhost:5000/images/1773165045541-welps13w_nb_14_i.png')" alt="Image 4">
     </div>
   </div>
 
   <!-- INFO -->
   <div class="product-info">
-    <div class="product-category">${product.category}</div>
-    <div class="product-name">${product.name}</div>
-    <div class="product-price">₹${product.price}</div>
+    <div class="product-category">shoes</div>
+    <div class="product-name">New Balance Ellipse</div>
+    <div class="product-price">₹2999</div>
     <div class="divider"></div>
-    <p class="desc">${product.description || "Premium quality product from ZeroShoppy."}</p>
+    <p class="desc">Whether you’re setting a 5AM alarm, putting in lunchtime road work, or heading out after dark, everyday miles are a labor of love. The all-new Ellipse matches this enthusiasm. The Ellipse combines the unparalleled comfort of Fresh Foam X cushioning with a bouncy underfoot feeling, designed to make your daily run the most enjoyable part of your day, every day.</p>
     <div class="divider"></div>
 
-    ${product.category === "shoes" ? `
+    
     <div class="sizes-label">
       <span>Select Size</span>
     </div>
-    <div class="sizes-grid">${sizesHTML}</div>
-    ` : `
-    <div class="stock-info">Stock available: ${product.stock || 0} units</div>
-    `}
+    <div class="sizes-grid"><button class="size-btn " onclick="selectSize(this,'7')" >
+          7
+        </button><button class="size-btn " onclick="selectSize(this,'8')" >
+          8
+        </button><button class="size-btn " onclick="selectSize(this,'9')" >
+          9
+        </button><button class="size-btn " onclick="selectSize(this,'10')" >
+          10
+        </button></div>
+    
 
     <div class="action-btns">
       <button class="btn-buy-now" onclick="buy()">Buy Now</button>
@@ -183,10 +159,10 @@ if(!currentUser){window.location.href="http://localhost:5000/login.html";throw n
   </div>
 </div>
 
-<footer>© ${new Date().getFullYear()} <span>ZeroShoppy</span> — Best Quality for Best Price</footer>
+<footer>© 2026 <span>ZeroShoppy</span> — Best Quality for Best Price</footer>
 
 <script>
-const product=${JSON.stringify(product)};
+const product={"name":"New Balance Ellipse","price":2999,"category":"shoes","description":"Whether you’re setting a 5AM alarm, putting in lunchtime road work, or heading out after dark, everyday miles are a labor of love. The all-new Ellipse matches this enthusiasm. The Ellipse combines the unparalleled comfort of Fresh Foam X cushioning with a bouncy underfoot feeling, designed to make your daily run the most enjoyable part of your day, every day.","image":"http://localhost:5000/images/1773165045522-ellipse.png","images":["http://localhost:5000/images/1773165045522-ellipse.png","http://localhost:5000/images/1773165045524-welps13w_nb_02_i.png","http://localhost:5000/images/1773165045535-welps13w_nb_10_i.png","http://localhost:5000/images/1773165045541-welps13w_nb_14_i.png"],"sizes":[{"size":7,"stock":10,"_id":"69b059f5db5e82464c16e5f1"},{"size":8,"stock":10,"_id":"69b059f5db5e82464c16e5f2"},{"size":9,"stock":10,"_id":"69b059f5db5e82464c16e5f3"},{"size":10,"stock":10,"_id":"69b059f5db5e82464c16e5f4"}],"_id":"69b059f5db5e82464c16e5f0","createdAt":"2026-03-10T17:50:45.556Z","updatedAt":"2026-03-10T17:50:45.556Z","__v":0};
 let selectedSize=null;
 
 function setMain(thumb,src){
@@ -233,64 +209,4 @@ function addToCart(){
 }
 </script>
 </body>
-</html>`;
-
-  fs.writeFileSync(filePath, html, "utf8");
-  return `http://localhost:5000/product-${product._id}.html`;
-}
-
-/* ── ADD PRODUCT (multi-image) ── */
-router.post("/add", upload.array("images", 5), async (req, res) => {
-  try {
-    console.log("Body:", req.body);
-    console.log("Files:", req.files);
-
-    if (!req.body.data) {
-      return res.status(400).json({ error: "No product data received" });
-    }
-
-    const data = JSON.parse(req.body.data);
-
-    if (req.files && req.files.length > 0) {
-      const imageUrls = req.files.map(f => "http://localhost:5000/images/" + f.filename);
-      data.images = imageUrls;
-      data.image = imageUrls[0]; // primary image
-    } else {
-      data.image = "";
-      data.images = [];
-    }
-
-    const product = await Product.create(data);
-
-    // Auto-generate individual product page
-    const pageUrl = generateProductPage(product);
-    console.log("Generated product page:", pageUrl);
-
-    res.json({ product, pageUrl });
-
-  } catch (err) {
-    console.error("Add product error:", err.message);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-/* ── GET ALL ── */
-router.get("/", async (req, res) => {
-  const products = await Product.find();
-  res.json(products);
-});
-
-/* ── DELETE PRODUCT ── */
-router.delete("/:id", async (req, res) => {
-  const product = await Product.findByIdAndDelete(req.params.id);
-
-  // Also delete the generated product page if it exists
-  if (product) {
-    const pagePath = path.join(__dirname, "../../frontend", `product-${product._id}.html`);
-    if (fs.existsSync(pagePath)) fs.unlinkSync(pagePath);
-  }
-
-  res.json({ message: "Deleted" });
-});
-
-module.exports = router;
+</html>

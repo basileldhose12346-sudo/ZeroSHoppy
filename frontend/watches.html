@@ -166,9 +166,11 @@ async function loadWatches(){
     if(p.category==="watches"){
       container.innerHTML+=`
         <div class="product">
-          <img src="${p.image}">
-          <b>${p.name}</b>
-          <div class="product-price">₹${p.price} | Stock: ${p.stock}</div>
+          <a href="http://localhost:5000/product-${p._id}.html" style="text-decoration:none;color:inherit;">
+            <img src="${p.image}">
+            <b>${p.name}</b>
+            <div class="product-price">₹${p.price} | Stock: ${p.stock}</div>
+          </a>
           <div class="product-bottom">
             <button onclick="buy('${p._id}')">Buy Now</button>
             <button onclick="addToCart('${p._id}')">Add to Cart</button>

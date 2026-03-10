@@ -4,223 +4,278 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ZeroShoppy — Best Quality for Best Price</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-
 :root{
---bg:#fafafa;
---card:#ffffff;
---muted:#777;
---accent:#111;
---accent-2:#e7e7e7;
---shadow:0 6px 18px rgba(12,12,12,0.08);
+  --bg:#f7f7f5;
+  --card:#ffffff;
+  --dark:#0e0e0e;
+  --accent:#c8f230;
+  --muted:#888;
+  --border:#e8e8e8;
+  --shadow:0 4px 24px rgba(0,0,0,0.07);
 }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Poppins",sans-serif;background:var(--bg);color:var(--dark);}
 
-*{box-sizing:border-box}
+.announce{
+  background:var(--dark);color:#fff;
+  text-align:center;padding:9px 20px;
+  font-size:13px;letter-spacing:0.04em;
+}
+.announce span{color:var(--accent);font-weight:600;}
 
-body{
-margin:0;
-font-family:"Poppins",sans-serif;
-background:var(--bg);
-}
-
-/* SIDEBAR */
-.side-menu{
-position:fixed;
-top:0;
-left:-260px;
-width:260px;
-height:100%;
-background:#111;
-color:white;
-padding:20px;
-transition:left 0.3s;
-z-index:2000;
-display:flex;
-flex-direction:column;
-box-sizing:border-box;
-overflow:hidden;
-}
-.side-menu.open{ left:0; }
-.side-menu a{
-display:block;
-color:white;
-text-decoration:none;
-margin:15px 0;
-font-size:15px;
-}
-.side-menu .side-bottom{
-margin-top:auto;
-border-top:1px solid #333;
-padding-top:15px;
-}
-.side-menu .side-bottom a{
-color:#ff6b6b;
-}
-
-/* NAVBAR */
 .nav{
-background:#fff;
-border-bottom:1px solid var(--accent-2);
-position:sticky;
-top:0;
-z-index:40;
-}
-.container{
-max-width:1180px;
-margin:auto;
-padding:0 18px;
+  background:#fff;
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:100;
 }
 .nav-inner{
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:14px 0;
+  max-width:1280px;margin:auto;
+  display:flex;align-items:center;
+  justify-content:space-between;
+  padding:0 24px;height:64px;
 }
-.brand{font-weight:700;display:flex;flex-direction:column}
-.brand .title{font-size:18px}
-.brand .moto{font-size:12px;color:var(--muted)}
-.menu-btn{font-size:22px;cursor:pointer;margin-right:15px}
-.search{
-border:1px solid var(--accent-2);
-padding:8px 12px;
-border-radius:999px;
-display:flex;
+.brand{
+  font-family:"Barlow Condensed",sans-serif;
+  font-size:26px;font-weight:900;
+  letter-spacing:-0.5px;color:var(--dark);
+  text-decoration:none;
 }
-.search input{ border:0; outline:none; }
+.brand span{color:#e8000d;}
+.menu-btn{
+  font-size:22px;cursor:pointer;margin-right:16px;
+  color:var(--dark);background:none;border:none;
+}
+.nav-right{display:flex;align-items:center;gap:12px;}
+.search-wrap{
+  display:flex;align-items:center;
+  border:1.5px solid var(--border);
+  border-radius:999px;padding:7px 16px;gap:8px;
+  background:#fafafa;transition:border-color 0.2s;
+}
+.search-wrap:focus-within{border-color:#aaa;}
+.search-wrap input{border:none;outline:none;background:transparent;font-family:Poppins;font-size:14px;width:200px;}
+.cart-btn{
+  display:flex;align-items:center;gap:6px;
+  background:var(--dark);color:#fff;
+  border:none;border-radius:999px;
+  padding:8px 18px;font-size:13px;font-weight:600;
+  cursor:pointer;font-family:Poppins;
+  text-decoration:none;transition:background 0.2s;
+}
+.cart-btn:hover{background:#333;}
 
-/* PRODUCTS */
-.section{padding:34px 18px}
-.grid-row{
-display:grid;
-grid-template-columns:repeat(6,1fr);
-gap:16px;
+.side-menu{
+  position:fixed;top:0;left:-280px;width:280px;height:100%;
+  background:var(--dark);color:white;padding:28px 24px;
+  transition:left 0.3s cubic-bezier(.4,0,.2,1);
+  z-index:2000;display:flex;flex-direction:column;box-sizing:border-box;
 }
-.product{
-background:#fff;
-padding:14px;
-border-radius:12px;
-box-shadow:var(--shadow);
-display:flex;
-flex-direction:column;
-height:260px;
+.side-menu.open{left:0;}
+.side-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.5);z-index:1999;
 }
-.product img{
-width:100%;
-height:90px;
-object-fit:contain;
-border-radius:10px;
-margin-bottom:6px;
+.side-overlay.open{display:block;}
+.side-user{
+  font-family:"Barlow Condensed",sans-serif;
+  font-size:22px;font-weight:700;
+  letter-spacing:0.5px;margin-bottom:32px;
+  padding-bottom:20px;border-bottom:1px solid #222;
+  display:flex;justify-content:space-between;align-items:center;
 }
-.product-name{
-font-size:13px;
-height:36px;
-overflow:hidden;
-line-height:1.2;
-margin-bottom:4px;
+.side-close{cursor:pointer;font-size:20px;opacity:0.6;}
+.side-close:hover{opacity:1;}
+.side-menu a{
+  display:flex;align-items:center;gap:12px;
+  color:rgba(255,255,255,0.75);text-decoration:none;
+  padding:12px 0;font-size:15px;font-weight:500;
+  border-bottom:1px solid #1a1a1a;transition:color 0.2s;
 }
-.product-price{font-weight:600;margin-bottom:6px;}
-.product-bottom{
-margin-top:auto;
-display:flex;
-flex-direction:column;
-gap:4px;
-}
-.product-bottom button{
-background:#111;
-color:white;
-border:none;
-padding:5px;
-border-radius:6px;
-cursor:pointer;
-font-size:12px;
-font-weight:600;
-}
+.side-menu a:hover{color:#fff;}
+.side-bottom{margin-top:auto;padding-top:20px;}
+.side-bottom a{color:#ff6b6b !important;border:none !important;}
 
-.watch-card button{
-padding:6px 10px;
-border:none;
-background:#111 !important;
-color:white;
-border-radius:6px;
-cursor:pointer;
-font-size:12px;
-font-weight:600;
+.hero{
+  position:relative;min-height:88vh;
+  display:flex;align-items:center;overflow:hidden;
+  background:linear-gradient(135deg,#0b1f1a 0%,#0d2e24 40%,#1a4a32 70%,#b8d96e 100%);
 }
+.hero-bg{
+  position:absolute;inset:0;
+  background:url("http://localhost:5000/images/ellipse.webp") center right/contain no-repeat;
+  opacity:0.9;
+}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to right,rgba(10,25,18,0.95) 35%,rgba(10,25,18,0.3) 65%,transparent 100%);
+}
+.hero-content{
+  position:relative;z-index:2;
+  max-width:1280px;margin:auto;padding:80px 24px;width:100%;
+}
+.hero-tag{
+  display:inline-block;
+  background:var(--accent);color:var(--dark);
+  font-size:11px;font-weight:700;letter-spacing:0.12em;
+  text-transform:uppercase;padding:5px 14px;
+  border-radius:999px;margin-bottom:24px;
+}
+.hero-title{
+  font-family:"Barlow Condensed",sans-serif;
+  font-size:clamp(56px,8vw,96px);font-weight:900;
+  line-height:0.95;color:#fff;letter-spacing:-1px;
+  text-transform:uppercase;margin-bottom:24px;
+}
+.hero-title span{color:var(--accent);}
+.hero-desc{
+  max-width:480px;color:rgba(255,255,255,0.7);
+  font-size:15px;line-height:1.75;margin-bottom:40px;font-weight:300;
+}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+.hero-btn{
+  padding:14px 32px;font-family:Poppins;
+  font-size:14px;font-weight:600;border-radius:4px;
+  cursor:pointer;text-decoration:none;
+  transition:all 0.2s;letter-spacing:0.04em;
+}
+.hero-btn-primary{background:#fff;color:var(--dark);border:2px solid #fff;}
+.hero-btn-primary:hover{background:var(--accent);border-color:var(--accent);}
+.hero-btn-secondary{background:transparent;color:#fff;border:2px solid rgba(255,255,255,0.5);}
+.hero-btn-secondary:hover{border-color:#fff;}
+.hero-scroll{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  color:rgba(255,255,255,0.4);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;
+}
+.scroll-line{
+  width:1px;height:40px;
+  background:linear-gradient(to bottom,rgba(255,255,255,0.4),transparent);
+  animation:scrollAnim 2s ease-in-out infinite;
+}
+@keyframes scrollAnim{0%,100%{opacity:0.4}50%{opacity:1}}
 
-/* WATCH CARD */
+.section-wrap{max-width:1280px;margin:auto;padding:64px 24px 0;}
+.section-header{
+  display:flex;align-items:baseline;justify-content:space-between;
+  margin-bottom:32px;border-bottom:2px solid var(--dark);padding-bottom:14px;
+}
+.section-header h2{
+  font-family:"Barlow Condensed",sans-serif;
+  font-size:36px;font-weight:800;letter-spacing:-0.5px;text-transform:uppercase;
+}
+.section-header a{
+  font-size:13px;font-weight:600;color:var(--dark);
+  text-decoration:none;letter-spacing:0.05em;text-transform:uppercase;opacity:0.5;
+}
+.section-header a:hover{opacity:1;}
+
+.shoe-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:20px;padding-bottom:64px;
+}
+.product-card{
+  background:#fff;border-radius:12px;overflow:hidden;
+  box-shadow:var(--shadow);cursor:pointer;
+  transition:transform 0.25s,box-shadow 0.25s;
+  display:flex;flex-direction:column;
+}
+.product-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.12);}
+.product-img-wrap{
+  background:#f2f2f0;padding:20px;aspect-ratio:1;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.product-img-wrap img{width:100%;height:100%;object-fit:contain;transition:transform 0.4s ease;}
+.product-card:hover .product-img-wrap img{transform:scale(1.06);}
+.product-badge{
+  position:absolute;top:10px;left:10px;
+  background:var(--dark);color:#fff;
+  font-size:10px;font-weight:700;letter-spacing:0.06em;
+  text-transform:uppercase;padding:3px 8px;border-radius:3px;
+}
+.product-info{padding:14px 16px 16px;}
+.product-name{font-size:14px;font-weight:600;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.product-price{font-size:15px;font-weight:700;margin-bottom:12px;}
+.size-select{
+  width:100%;padding:7px 10px;border:1.5px solid var(--border);
+  border-radius:6px;font-family:Poppins;font-size:12px;
+  margin-bottom:10px;cursor:pointer;outline:none;transition:border-color 0.2s;
+}
+.size-select:focus{border-color:var(--dark);}
+.btn-row{display:flex;gap:8px;}
+.btn-buy{
+  flex:1;padding:8px;background:var(--dark);color:#fff;
+  border:none;border-radius:6px;font-family:Poppins;
+  font-size:12px;font-weight:600;cursor:pointer;transition:background 0.2s;
+}
+.btn-buy:hover{background:#333;}
+.btn-cart{
+  padding:8px 12px;background:#f0f0ee;color:var(--dark);
+  border:none;border-radius:6px;font-family:Poppins;
+  font-size:12px;font-weight:600;cursor:pointer;transition:background 0.2s;
+}
+.btn-cart:hover{background:#e0e0de;}
+
+.watch-list{display:flex;flex-direction:column;gap:12px;padding-bottom:64px;}
 .watch-card{
-background:#fff;
-padding:12px;
-display:flex;
-gap:16px;
-border-radius:12px;
-box-shadow:var(--shadow);
-align-items:center;
-margin-bottom:10px;
+  background:#fff;border-radius:12px;padding:16px 20px;
+  display:flex;align-items:center;gap:20px;box-shadow:var(--shadow);
+  transition:transform 0.2s,box-shadow 0.2s;
 }
-.watch-card img{width:70px;height:70px;border-radius:8px;}
-.watch-card .watch-btns{
-margin-left:auto;
-display:flex;
-gap:8px;
-}
-.watch-card button{
-padding:6px 10px;
-border:none;
-background:#111;
-color:white;
-border-radius:6px;
-cursor:pointer;
-font-size:12px;
-}
+.watch-card:hover{transform:translateX(4px);box-shadow:0 8px 28px rgba(0,0,0,0.1);}
+.watch-card img{width:80px;height:80px;object-fit:contain;border-radius:10px;background:#f2f2f0;padding:6px;flex-shrink:0;}
+.watch-info{flex:1;}
+.watch-name{font-size:15px;font-weight:600;margin-bottom:2px;}
+.watch-meta{font-size:13px;color:var(--muted);}
+.watch-price{font-family:"Barlow Condensed",sans-serif;font-size:24px;font-weight:700;margin:0 24px;}
+.watch-btns{display:flex;gap:8px;flex-shrink:0;}
+.watch-btns .btn-buy{padding:9px 18px;border-radius:6px;white-space:nowrap;}
+.watch-btns .btn-cart{padding:9px 14px;border-radius:6px;}
 
-footer{text-align:center;color:var(--muted);padding:24px;}
+footer{
+  background:var(--dark);color:rgba(255,255,255,0.5);
+  text-align:center;padding:32px 24px;font-size:13px;margin-top:80px;
+}
+footer span{color:var(--accent);}
 
-/* POPUP */
 .popup{
-position:fixed;
-top:30px;
-left:50%;
-transform:translateX(-50%) translateY(-80px);
-background:#fff;
-border-radius:12px;
-padding:16px 28px;
-box-shadow:0 8px 30px rgba(0,0,0,0.15);
-display:flex;
-align-items:center;
-gap:12px;
-font-weight:600;
-font-size:15px;
-z-index:9999;
-transition:transform 0.4s cubic-bezier(.2,.9,.2,1);
+  position:fixed;top:24px;right:24px;left:auto;
+  transform:translateX(120%);
+  background:#fff;border-radius:10px;padding:14px 20px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.15);
+  display:flex;align-items:center;gap:12px;
+  font-weight:600;font-size:14px;z-index:9999;
+  transition:transform 0.4s cubic-bezier(.2,.9,.2,1);
+  border-left:4px solid #22c55e;min-width:220px;
 }
-.popup.show{ transform:translateX(-50%) translateY(0); }
+.popup.show{transform:translateX(0);}
+.popup.error{border-left-color:#ef4444;}
 .popup .tick{
-width:32px;height:32px;
-background:#22c55e;
-border-radius:50%;
-display:flex;align-items:center;justify-content:center;
-color:white;font-size:18px;
+  width:28px;height:28px;background:#22c55e;
+  border-radius:50%;display:flex;align-items:center;
+  justify-content:center;color:white;font-size:14px;flex-shrink:0;
 }
+.popup.error .tick{background:#ef4444;}
+
+.fade-up{opacity:0;transform:translateY(24px);animation:fadeUp 0.6s ease forwards;}
+@keyframes fadeUp{to{opacity:1;transform:none}}
 </style>
 </head>
-
 <body>
 
-<!-- POPUP -->
 <div id="popup" class="popup">
-  <div class="tick">✓</div>
+  <div class="tick" id="popupTick">✓</div>
   <span id="popupMsg">Done!</span>
 </div>
 
-<!-- SIDEBAR -->
+<div id="sideOverlay" class="side-overlay" onclick="toggleMenu()"></div>
+
 <div id="sideMenu" class="side-menu">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-    <h3 id="userName" style="margin:0"></h3>
-    <span onclick="toggleMenu()" style="cursor:pointer;font-size:22px;color:white;">✕</span>
+  <div class="side-user">
+    <span id="userName">User</span>
+    <span class="side-close" onclick="toggleMenu()">✕</span>
   </div>
   <a href="http://localhost:5000/newindex.html">🏠 Home</a>
   <a href="http://localhost:5000/shoes.html">👟 Shoes</a>
@@ -232,155 +287,186 @@ color:white;font-size:18px;
 </div>
 
 <script>
-const currentUser = JSON.parse(localStorage.getItem("currentUser"))
-if(!currentUser){ window.location.href="http://localhost:5000/login.html"; throw new Error("Not logged in"); }
+const currentUser=JSON.parse(localStorage.getItem("currentUser"))
+if(!currentUser){window.location.href="http://localhost:5000/login.html";throw new Error("Not logged in");}
 </script>
 
+<div class="announce">Free shipping on orders above ₹999 — <span>Limited time offer</span></div>
+
 <header class="nav">
-<div class="container nav-inner">
-  <div style="display:flex;align-items:center">
-    <div class="menu-btn" onclick="toggleMenu()">☰</div>
-    <div class="brand">
-      <span class="title">ZeroShoppy</span>
-      <span class="moto">Best Quality for Best Price</span>
+  <div class="nav-inner">
+    <div style="display:flex;align-items:center;">
+      <button class="menu-btn" onclick="toggleMenu()">☰</button>
+      <a href="#" class="brand">ZERO<span>S</span>HOPPY</a>
+    </div>
+    <div class="nav-right">
+      <div class="search-wrap">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="search" placeholder="Search products…" id="search">
+      </div>
+      <a href="http://localhost:5000/cart.html" class="cart-btn">🛒 Cart</a>
     </div>
   </div>
-  <div class="search">
-    <input type="search" placeholder="Search products" id="search">
-  </div>
-</div>
 </header>
 
-<main class="container">
-  <section class="section">
-    <h3>LATEST SHOES</h3>
-    <div class="grid-row" id="productList"></div>
-  </section>
-  <section class="section">
-    <h3>FEATURED WATCHES</h3>
-    <div id="watchList"></div>
-  </section>
-</main>
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-tag fade-up" style="animation-delay:0.1s">New Arrivals 2025</div>
+    <h1 class="hero-title fade-up" style="animation-delay:0.2s">
+      Step Into<br><span>Quality.</span>
+    </h1>
+    <p class="hero-desc fade-up" style="animation-delay:0.35s">
+      Whether you're setting a 5AM alarm, putting in lunchtime road work, or heading out after dark, everyday miles are a labor of love. The all-new Ellipse matches this enthusiasm — combining unparalleled comfort with a bouncy underfoot feeling, designed to make your daily run the most enjoyable part of your day, every day.
+    </p>
+    <div class="hero-btns fade-up" style="animation-delay:0.5s">
+      <a href="http://localhost:5000/shoes.html" class="hero-btn hero-btn-primary">Shop Shoes</a>
+      <a href="http://localhost:5000/watches.html" class="hero-btn hero-btn-secondary">Shop Watches</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</section>
 
-<footer>© <span id="year"></span> ZeroShoppy</footer>
+<div class="section-wrap">
+  <div class="section-header">
+    <h2>Latest Shoes</h2>
+    <a href="http://localhost:5000/shoes.html">View All →</a>
+  </div>
+  <div class="shoe-grid" id="productList"></div>
+</div>
+
+<div class="section-wrap">
+  <div class="section-header">
+    <h2>Featured Watches</h2>
+    <a href="http://localhost:5000/watches.html">View All →</a>
+  </div>
+  <div class="watch-list" id="watchList"></div>
+</div>
+
+<footer>© <span id="year"></span> <span>ZeroShoppy</span> — Best Quality for Best Price</footer>
 
 <script>
-
 document.getElementById("year").innerText=new Date().getFullYear()
 document.getElementById("userName").innerText=currentUser.username
 
 function toggleMenu(){
   document.getElementById("sideMenu").classList.toggle("open")
+  document.getElementById("sideOverlay").classList.toggle("open")
 }
-
 function logout(){
   localStorage.removeItem("currentUser")
   window.location.href="http://localhost:5000/login.html"
 }
-
-/* POPUP */
-function showPopup(msg){
-  document.getElementById("popupMsg").innerText=msg
+function showPopup(msg,isError=false){
   const p=document.getElementById("popup")
+  const tick=document.getElementById("popupTick")
+  document.getElementById("popupMsg").innerText=msg
+  p.classList.remove("error")
+  if(isError){p.classList.add("error");tick.innerText="✕"}
+  else{tick.innerText="✓"}
   p.classList.add("show")
   setTimeout(()=>p.classList.remove("show"),2500)
 }
 
-/* ADD TO CART */
 const productMap={}
 
 function addToCart(id){
   const product=productMap[id]
-  if(!product) return
+  if(!product)return
   let cart=JSON.parse(localStorage.getItem("cart"))||[]
   const sizeSelect=document.getElementById("size-"+id)
-  const cartItem={...product, size: sizeSelect ? sizeSelect.value : null}
+  const cartItem={...product,size:sizeSelect?sizeSelect.value:null}
   cart.push(cartItem)
   localStorage.setItem("cart",JSON.stringify(cart))
   showPopup("Added to cart!")
 }
 
-/* LOAD PRODUCTS */
+async function buy(productId){
+  if(!currentUser||!currentUser._id){alert("Please login again");return}
+  if(currentUser.role==="admin"){alert("Admin cannot place orders");return}
+  let sizeSelect=document.getElementById("size-"+productId)
+  let size=sizeSelect?sizeSelect.value:null
+  const res=await fetch("http://localhost:5000/api/orders/place",{
+    method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({productId,userId:currentUser._id,quantity:1,size})
+  })
+  const data=await res.json()
+  if(res.ok){showPopup("Order placed!");loadProducts()}
+  else showPopup(data.message,true)
+}
+
 async function loadProducts(){
   const res=await fetch("http://localhost:5000/api/products")
   const products=await res.json()
-
   const shoes=document.getElementById("productList")
   const watches=document.getElementById("watchList")
   shoes.innerHTML=""
   watches.innerHTML=""
 
-  products.forEach(p=>{
+  products.forEach((p,i)=>{
+    productMap[p._id]=p
 
     if(p.category==="shoes"){
       let sizeOptions=""
-      if(p.sizes && p.sizes.length>0){
+      if(p.sizes&&p.sizes.length>0){
         p.sizes.forEach(s=>{
-          if(s.stock>0) sizeOptions+=`<option value="${s.size}">${s.size} (Stock:${s.stock})</option>`
+          if(s.stock>0)sizeOptions+=`<option value="${s.size}">${s.size} (${s.stock} left)</option>`
         })
       }
-      productMap[p._id]=p
       const card=document.createElement("div")
-      card.className="product"
+      card.className="product-card fade-up"
+      card.style.animationDelay=(i*0.07)+"s"
       card.innerHTML=`
-        <img src="${p.image}">
-        <div class="product-name">${p.name}</div>
-        <div class="product-price">₹${p.price}</div>
-        <div class="product-bottom">
-          <select id="size-${p._id}">${sizeOptions}</select>
-          <button onclick="buy('${p._id}')">Buy Now</button>
-          <button onclick="addToCart('${p._id}')">Add to Cart</button>
+        <a href="http://localhost:5000/product-${p._id}.html" style="text-decoration:none;color:inherit;">
+          <div class="product-img-wrap">
+            <div class="product-badge">Shoes</div>
+            <img src="${p.image}" alt="${p.name}">
+          </div>
+          <div class="product-info" style="padding-bottom:0">
+            <div class="product-name">${p.name}</div>
+            <div class="product-price">₹${p.price}</div>
+          </div>
+        </a>
+        <div class="product-info" style="padding-top:8px">
+          <select class="size-select" id="size-${p._id}">${sizeOptions||'<option>No sizes</option>'}</select>
+          <div class="btn-row">
+            <button class="btn-buy" onclick="buy('${p._id}')">Buy Now</button>
+            <button class="btn-cart" onclick="addToCart('${p._id}')">+ Cart</button>
+          </div>
         </div>`
       shoes.appendChild(card)
     }
 
     if(p.category==="watches"){
-      productMap[p._id]=p
       const card=document.createElement("div")
-      card.className="watch-card"
+      card.className="watch-card fade-up"
+      card.style.animationDelay=(i*0.07)+"s"
       card.innerHTML=`
-        <img src="${p.image}">
-        <div>
-          <b>${p.name}</b><br>
-          ₹${p.price}<br>
-          Stock: ${p.stock}
-        </div>
+        <a href="http://localhost:5000/product-${p._id}.html" style="display:flex;align-items:center;gap:20px;flex:1;text-decoration:none;color:inherit;">
+          <img src="${p.image}" alt="${p.name}">
+          <div class="watch-info">
+            <div class="watch-name">${p.name}</div>
+            <div class="watch-meta">Stock: ${p.stock} available</div>
+          </div>
+          <div class="watch-price">₹${p.price}</div>
+        </a>
         <div class="watch-btns">
-          <button onclick="buy('${p._id}')">Buy Now</button>
-          <button onclick="addToCart('${p._id}')">Add to Cart</button>
+          <button class="btn-buy" onclick="buy('${p._id}')">Buy Now</button>
+          <button class="btn-cart" onclick="addToCart('${p._id}')">+ Cart</button>
         </div>`
       watches.appendChild(card)
     }
   })
 }
 
-/* BUY */
-async function buy(productId){
-  if(!currentUser||!currentUser._id){ alert("Please login again"); return }
-  if(currentUser.role==="admin"){ alert("Admin cannot place orders"); return }
-
-  let sizeSelect=document.getElementById("size-"+productId)
-  let size=sizeSelect?sizeSelect.value:null
-
-  const res=await fetch("http://localhost:5000/api/orders/place",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({productId,userId:currentUser._id,quantity:1,size})
-  })
-  const data=await res.json()
-  if(res.ok){
-    showPopup("Order placed successfully!")
-    loadProducts()
-  }else{
-    alert(data.message)
-  }
-}
-
-/* SEARCH */
 document.getElementById("search").addEventListener("input",function(){
-  let value=this.value.toLowerCase()
-  document.querySelectorAll(".product,.watch-card").forEach(card=>{
-    card.style.display=card.innerText.toLowerCase().includes(value)?"":"none"
+  const v=this.value.toLowerCase()
+  document.querySelectorAll(".product-card,.watch-card").forEach(c=>{
+    c.style.display=c.innerText.toLowerCase().includes(v)?"":"none"
   })
 })
 
