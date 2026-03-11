@@ -280,6 +280,30 @@ router.get("/", async (req, res) => {
   res.json(products);
 });
 
+/* ── EDIT PRODUCT ── */
+router.put("/:id", async (req, res) => {
+  try {
+    const { name, price, description, stock, sizes } = req.body;
+    const product = await Product.findById(req.params.id);
+    if (!product) return res.status(404).json({ error: "Product not found" });
+
+    if (name) product.name = name;
+    if (price !== undefined) product.price = price;
+    if (description !== undefined) product.description = description;
+    if (stock !== undefined) product.stock = stock;
+    if (sizes) product.sizes = sizes;
+
+    await product.save();
+
+    // Regenerate the product page with updated info
+    generateProductPage(product);
+
+    res.json({ message: "Updated", product });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 /* ── DELETE PRODUCT ── */
 router.delete("/:id", async (req, res) => {
   const product = await Product.findByIdAndDelete(req.params.id);

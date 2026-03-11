@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Login - ZeroShoppy</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 
@@ -25,114 +25,100 @@ z-index:-1;
 }
 
 /* NAVBAR */
-
 .nav{
-background:#fff;
-border-bottom:1px solid #e7e7e7;
-position:sticky;
-top:0;
-z-index:100;
-box-shadow:0 2px 6px rgba(0,0,0,0.08);
+  background:#fff;
+  border-bottom:1px solid #e8e8e8;
+  position:sticky;
+  top:0;
+  z-index:100;
 }
-
 .container{
-max-width:1180px;
-margin:auto;
-padding:14px 18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
+  max-width:1280px;
+  margin:auto;
+  padding:0 24px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
-
 .brand{
-font-weight:700;
-display:flex;
-flex-direction:column;
+  font-family:"Barlow Condensed",sans-serif;
+  font-size:22px;font-weight:900;
+  letter-spacing:-0.5px;color:#0e0e0e;
+  text-decoration:none;
 }
-
-.brand .title{
-font-size:18px;
-}
-
-.brand .moto{
-font-size:12px;
-color:gray;
-}
-
-.nav-links{
-display:flex;
-gap:18px;
-}
-
-.nav-links a{
-text-decoration:none;
-color:gray;
-font-size:14px;
-}
-
-.search{
-border:1px solid #ddd;
-padding:8px 12px;
-border-radius:999px;
-}
-
-.search input{
-border:0;
-outline:none;
-background:transparent;
-}
+.brand span{color:#e8000d;}
+.nav-links{display:flex;gap:18px;}
+.nav-links a{text-decoration:none;color:#888;font-size:13px;font-weight:500;}
+.nav-links a:hover{color:#0e0e0e;}
 
 /* LOGIN BOX */
-
 .wrapper{
-height:calc(100vh - 70px);
-display:flex;
-align-items:center;
-justify-content:center;
+  height:calc(100vh - 48px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
-
 .login-box{
-width:360px;
-background:rgba(255,255,255,0.9);
-padding:25px;
-border-radius:12px;
-box-shadow:0 0 25px rgba(0,0,0,0.3);
-text-align:center;
+  width:360px;
+  background:rgba(255,255,255,0.93);
+  padding:32px 28px;
+  border-radius:14px;
+  box-shadow:0 0 32px rgba(0,0,0,0.25);
 }
-
+.login-box h2{
+  font-family:"Barlow Condensed",sans-serif;
+  font-size:28px;font-weight:900;
+  text-transform:uppercase;letter-spacing:-0.5px;
+  margin:0 0 24px 0;text-align:center;
+}
 .form-group{
-text-align:left;
-margin-bottom:14px;
+  margin-bottom:14px;
 }
-
+.form-group label{
+  display:block;font-size:11px;font-weight:700;
+  letter-spacing:0.08em;text-transform:uppercase;
+  color:#888;margin-bottom:5px;
+}
 .form-group input{
-width:100%;
-padding:9px;
-border:1px solid #ccc;
-border-radius:6px;
+  width:100%;
+  padding:9px 12px;
+  border:1.5px solid #e8e8e8;
+  border-radius:8px;
+  font-family:"Poppins",sans-serif;
+  font-size:14px;
+  outline:none;
+  box-sizing:border-box;
+  transition:border-color 0.2s;
 }
-
+.form-group input:focus{border-color:#0e0e0e;}
+.login-btn-wrap{
+  display:flex;
+  justify-content:center;
+  margin-top:18px;
+}
 .login-btn{
-width:100%;
-padding:10px;
-background:#111;
-color:#fff;
-border:none;
-border-radius:6px;
-cursor:pointer;
+  width:50%;
+  padding:10px;
+  background:#111;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-family:"Poppins",sans-serif;
+  font-size:14px;font-weight:600;
+  transition:background 0.2s;
 }
-
+.login-btn:hover{background:#333;}
 .links{
-margin-top:14px;
-font-size:13px;
-display:flex;
-justify-content:space-between;
+  margin-top:16px;
+  font-size:12px;
+  display:flex;
+  justify-content:space-between;
 }
-
-#msg{
-color:red;
-margin-top:10px;
-}
+.links a{color:#555;text-decoration:none;}
+.links a:hover{color:#0e0e0e;}
+#msg{color:red;margin-top:10px;font-size:13px;text-align:center;}
 
 </style>
 </head>
@@ -145,16 +131,10 @@ margin-top:10px;
 
 <header class="nav">
 <div class="container">
-
-<div class="brand">
-<span class="title">ZeroShoppy</span>
-<span class="moto">Best Quality for Best Price</span>
-</div>
-
-<nav class="nav-links">
-<a href="http://localhost:5000/register.html">Register</a>
-</nav>
-
+  <a href="#" class="brand">ZERO<span>S</span>HOPPY</a>
+  <nav class="nav-links">
+    <a href="http://localhost:5000/register.html">Register</a>
+  </nav>
 </div>
 </header>
 
@@ -167,20 +147,24 @@ margin-top:10px;
 <h2>Login</h2>
 
 <div class="form-group">
-<input id="user" placeholder="Username">
+  <label>Username</label>
+  <input id="user" placeholder="Enter username">
 </div>
 
 <div class="form-group">
-<input id="pass" type="password" placeholder="Password">
+  <label>Password</label>
+  <input id="pass" type="password" placeholder="Enter password">
 </div>
 
-<button class="login-btn" onclick="login()">Login</button>
+<div class="login-btn-wrap">
+  <button class="login-btn" onclick="login()">Login</button>
+</div>
 
 <div id="msg"></div>
 
 <div class="links">
-<a href="http://localhost:5000/register.html">Create Account</a>
-<a href="http://localhost:5000/forgot.html">Forgot Password?</a>
+  <a href="http://localhost:5000/register.html">Create Account</a>
+  <a href="http://localhost:5000/forgot.html">Forgot Password?</a>
 </div>
 
 </div>

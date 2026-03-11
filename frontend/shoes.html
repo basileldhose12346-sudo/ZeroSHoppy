@@ -4,89 +4,92 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Shoes — ZeroShoppy</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-
-body{margin:0;font-family:Poppins;background:#fafafa}
-
-.nav{background:#fff;border-bottom:1px solid #e7e7e7;position:sticky;top:0;z-index:40;}
-.container{max-width:1180px;margin:auto;padding:0 18px}
-.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
-.brand{font-weight:700;display:flex;flex-direction:column}
-.brand .title{font-size:18px}
-.brand .moto{font-size:12px;color:#777}
-.menu-btn{font-size:22px;cursor:pointer;margin-right:15px}
-.search{border:1px solid #ddd;padding:8px 12px;border-radius:999px;display:flex;} .search input{border:0;outline:none;background:transparent;}
-
-.grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;padding:30px}
-
-.product{
-background:#fff;
-padding:14px;
-border-radius:12px;
-box-shadow:0 6px 18px rgba(0,0,0,0.08);
-display:flex;
-flex-direction:column;
-height:260px;
+:root{
+  --bg:#f7f7f5;--card:#ffffff;--dark:#0e0e0e;--accent:#c8f230;
+  --muted:#888;--border:#e8e8e8;--shadow:0 4px 24px rgba(0,0,0,0.07);
 }
-.product img{width:100%;height:90px;object-fit:contain;border-radius:8px;margin-bottom:6px;}
-.product b{font-size:13px;margin-bottom:4px;}
-.product-price{font-weight:600;margin-bottom:6px;font-size:13px;}
-.product-bottom{margin-top:auto;display:flex;flex-direction:column;gap:4px;}
-.product-bottom button{
-background:#111;color:white;border:none;
-padding:5px;border-radius:6px;cursor:pointer;font-size:12px;
-}
-.product-bottom select{padding:4px;border-radius:6px;border:1px solid #ddd;font-size:12px;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Poppins",sans-serif;background:var(--bg);color:var(--dark);}
 
-/* SIDEBAR */
-.side-menu{
-position:fixed;top:0;left:-260px;width:260px;height:100%;
-background:#111;color:white;padding:20px;
-transition:left 0.3s;z-index:2000;
-display:flex;flex-direction:column;
-box-sizing:border-box;
-overflow:hidden;
-}
+.announce{background:var(--dark);color:#fff;text-align:center;padding:9px 20px;font-size:13px;letter-spacing:0.04em;}
+.announce span{color:var(--accent);font-weight:600;}
+
+.nav{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
+.nav-inner{max-width:1280px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:64px;}
+.brand{font-family:"Barlow Condensed",sans-serif;font-size:26px;font-weight:900;letter-spacing:-0.5px;color:var(--dark);text-decoration:none;}
+.brand span{color:#e8000d;}
+.menu-btn{font-size:22px;cursor:pointer;margin-right:16px;color:var(--dark);background:none;border:none;}
+.nav-right{display:flex;align-items:center;gap:12px;}
+.search-wrap{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:999px;padding:7px 16px;gap:8px;background:#fafafa;transition:border-color 0.2s;}
+.search-wrap:focus-within{border-color:#aaa;}
+.search-wrap input{border:none;outline:none;background:transparent;font-family:Poppins;font-size:14px;width:180px;}
+.cart-btn{display:flex;align-items:center;gap:6px;background:var(--dark);color:#fff;border:none;border-radius:999px;padding:8px 18px;font-size:13px;font-weight:600;cursor:pointer;font-family:Poppins;text-decoration:none;transition:background 0.2s;}
+.cart-btn:hover{background:#333;}
+
+.side-menu{position:fixed;top:0;left:-280px;width:280px;height:100%;background:var(--dark);color:white;padding:28px 24px;transition:left 0.3s cubic-bezier(.4,0,.2,1);z-index:2000;display:flex;flex-direction:column;box-sizing:border-box;}
 .side-menu.open{left:0;}
-.side-menu a{display:block;color:white;margin:15px 0;text-decoration:none;font-size:15px;}
-.side-menu .side-bottom{margin-top:auto;border-top:1px solid #333;padding-top:15px;}
-.side-menu .side-bottom a{color:#ff6b6b;}
+.side-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1999;}
+.side-overlay.open{display:block;}
+.side-user{font-family:"Barlow Condensed",sans-serif;font-size:22px;font-weight:700;letter-spacing:0.5px;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid #222;display:flex;justify-content:space-between;align-items:center;}
+.side-close{cursor:pointer;font-size:20px;opacity:0.6;}
+.side-close:hover{opacity:1;}
+.side-menu a{display:flex;align-items:center;gap:12px;color:rgba(255,255,255,0.75);text-decoration:none;padding:12px 0;font-size:15px;font-weight:500;border-bottom:1px solid #1a1a1a;transition:color 0.2s;}
+.side-menu a:hover{color:#fff;}
+.side-bottom{margin-top:auto;padding-top:20px;}
+.side-bottom a{color:#ff6b6b !important;border:none !important;}
 
-/* POPUP */
-.popup{
-position:fixed;top:30px;left:50%;
-transform:translateX(-50%) translateY(-80px);
-background:#fff;border-radius:12px;padding:16px 28px;
-box-shadow:0 8px 30px rgba(0,0,0,0.15);
-display:flex;align-items:center;gap:12px;
-font-weight:600;font-size:15px;z-index:9999;
-transition:transform 0.4s cubic-bezier(.2,.9,.2,1);
-}
-.popup.show{transform:translateX(-50%) translateY(0);}
-.popup .tick{
-width:32px;height:32px;background:#22c55e;
-border-radius:50%;display:flex;align-items:center;
-justify-content:center;color:white;font-size:18px;
-}
+.section-wrap{max-width:1280px;margin:auto;padding:48px 24px 80px;}
+.section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:32px;border-bottom:2px solid var(--dark);padding-bottom:14px;}
+.section-header h2{font-family:"Barlow Condensed",sans-serif;font-size:36px;font-weight:800;letter-spacing:-0.5px;text-transform:uppercase;}
+
+.shoe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px;}
+.product-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);transition:transform 0.25s,box-shadow 0.25s;display:flex;flex-direction:column;}
+.product-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.12);}
+.product-img-wrap{background:#f2f2f0;padding:20px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.product-img-wrap img{width:100%;height:100%;object-fit:contain;transition:transform 0.4s ease;}
+.product-card:hover .product-img-wrap img{transform:scale(1.06);}
+.product-badge{position:absolute;top:10px;left:10px;background:var(--dark);color:#fff;font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:3px 8px;border-radius:3px;}
+.product-info{padding:14px 16px 16px;}
+.product-name{font-size:14px;font-weight:600;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.product-price{font-size:15px;font-weight:700;margin-bottom:12px;color:var(--dark);}
+.size-select{width:100%;padding:7px 10px;border:1.5px solid var(--border);border-radius:6px;font-family:Poppins;font-size:12px;margin-bottom:10px;cursor:pointer;outline:none;transition:border-color 0.2s;}
+.size-select:focus{border-color:var(--dark);}
+.btn-row{display:flex;gap:8px;}
+.btn-buy{flex:1;padding:8px;background:var(--dark);color:#fff;border:none;border-radius:6px;font-family:Poppins;font-size:12px;font-weight:600;cursor:pointer;transition:background 0.2s;}
+.btn-buy:hover{background:#333;}
+.btn-cart{padding:8px 12px;background:#f0f0ee;color:var(--dark);border:none;border-radius:6px;font-family:Poppins;font-size:12px;font-weight:600;cursor:pointer;transition:background 0.2s;}
+.btn-cart:hover{background:#e0e0de;}
+
+.popup{position:fixed;top:24px;right:24px;left:auto;transform:translateX(120%);background:#fff;border-radius:10px;padding:14px 20px;box-shadow:0 8px 32px rgba(0,0,0,0.15);display:flex;align-items:center;gap:12px;font-weight:600;font-size:14px;z-index:9999;transition:transform 0.4s cubic-bezier(.2,.9,.2,1);border-left:4px solid #22c55e;min-width:220px;}
+.popup.show{transform:translateX(0);}
+.popup.error{border-left-color:#ef4444;}
+.popup .tick{width:28px;height:28px;background:#22c55e;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:14px;flex-shrink:0;}
+.popup.error .tick{background:#ef4444;}
+
+footer{background:var(--dark);color:rgba(255,255,255,0.5);text-align:center;padding:32px 24px;font-size:13px;margin-top:0;}
+footer span{color:var(--accent);}
 </style>
 </head>
-
 <body>
 
-<!-- POPUP -->
+<script>
+const user=JSON.parse(localStorage.getItem("currentUser"))
+if(!user){window.location.href="http://localhost:5000/login.html";throw new Error("Not logged in");}
+</script>
+
+
 <div id="popup" class="popup">
-  <div class="tick">✓</div>
+  <div class="tick" id="popupTick">✓</div>
   <span id="popupMsg">Done!</span>
 </div>
 
-<!-- SIDEBAR -->
+<div id="sideOverlay" class="side-overlay" onclick="toggleMenu()"></div>
 <div id="sideMenu" class="side-menu">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-    <h3 id="userName" style="margin:0"></h3>
-    <span onclick="toggleMenu()" style="cursor:pointer;font-size:22px;color:white;">✕</span>
+  <div class="side-user">
+    <span id="userName">User</span>
+    <span class="side-close" onclick="toggleMenu()">✕</span>
   </div>
   <a href="http://localhost:5000/newindex.html">🏠 Home</a>
   <a href="http://localhost:5000/shoes.html">👟 Shoes</a>
@@ -97,73 +100,82 @@ justify-content:center;color:white;font-size:18px;
   </div>
 </div>
 
+
+<div class="announce">Free shipping on orders above ₹999 — <span>Limited time offer</span></div>
 <header class="nav">
-<div class="container nav-inner">
-  <div style="display:flex;gap:10px;align-items:center">
-    <div class="menu-btn" onclick="toggleMenu()">☰</div>
-    <div class="brand">
-      <span class="title">ZeroShoppy</span>
-      <span class="moto">Best Quality for Best Price</span>
+  <div class="nav-inner">
+    <div style="display:flex;align-items:center;">
+      <button class="menu-btn" onclick="toggleMenu()">☰</button>
+      <a href="http://localhost:5000/newindex.html" class="brand">ZERO<span>S</span>HOPPY</a>
+    </div>
+    <div class="nav-right">
+      <div class="search-wrap">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="search" placeholder="Search products…" id="search">
+      </div>
+      <a href="http://localhost:5000/cart.html" class="cart-btn">🛒 Cart</a>
     </div>
   </div>
-  <div class="search">
-    <input type="search" placeholder="Search" id="search">
-  </div>
-</div>
 </header>
 
-<div class="grid" id="shoeList"></div>
+
+<div class="section-wrap">
+  <div class="section-header">
+    <h2>All Shoes</h2>
+  </div>
+  <div class="shoe-grid" id="shoeList"></div>
+</div>
+
+<footer>© <span id="year"></span> <span>ZeroShoppy</span> — Best Quality for Best Price</footer>
 
 <script>
-
-const user=JSON.parse(localStorage.getItem("currentUser"))
-if(!user){ window.location.href="http://localhost:5000/login.html"; throw new Error("Not logged in"); }
-
+document.getElementById("year").innerText=new Date().getFullYear()
 document.getElementById("userName").innerText=user.username
 
 function toggleMenu(){
   document.getElementById("sideMenu").classList.toggle("open")
+  document.getElementById("sideOverlay").classList.toggle("open")
 }
-
 function logout(){
   localStorage.removeItem("currentUser")
   window.location.href="http://localhost:5000/login.html"
 }
-
-function showPopup(msg){
-  document.getElementById("popupMsg").innerText=msg
+function showPopup(msg,isError=false){
   const p=document.getElementById("popup")
+  const tick=document.getElementById("popupTick")
+  document.getElementById("popupMsg").innerText=msg
+  p.classList.remove("error")
+  if(isError){p.classList.add("error");tick.innerText="✕"}
+  else{tick.innerText="✓"}
   p.classList.add("show")
   setTimeout(()=>p.classList.remove("show"),2500)
 }
 
-// Store products in a map to avoid JSON stringify issues in onclick
+
 const productMap={}
 
 function addToCart(id){
   const product=productMap[id]
-  if(!product) return
+  if(!product)return
   let cart=JSON.parse(localStorage.getItem("cart"))||[]
-  // Store with selected size if applicable
   const sizeSelect=document.getElementById("size-"+id)
-  const cartItem={...product, size: sizeSelect ? sizeSelect.value : null}
+  const cartItem={...product,size:sizeSelect?sizeSelect.value:null}
   cart.push(cartItem)
   localStorage.setItem("cart",JSON.stringify(cart))
   showPopup("Added to cart!")
 }
 
 async function buy(productId){
-  if(user.role==="admin"){ alert("Admin cannot place orders"); return }
+  if(user.role==="admin"){showPopup("Admin cannot place orders",true);return}
   let sizeSelect=document.getElementById("size-"+productId)
   let size=sizeSelect?sizeSelect.value:null
   const res=await fetch("http://localhost:5000/api/orders/place",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
+    method:"POST",headers:{"Content-Type":"application/json"},
     body:JSON.stringify({productId,userId:user._id,quantity:1,size})
   })
   const data=await res.json()
-  if(res.ok){ showPopup("Order placed successfully!"); loadShoes() }
-  else alert(data.message)
+  if(res.ok){showPopup("Order placed!");loadShoes()}
+  else showPopup(data.message,true)
 }
 
 async function loadShoes(){
@@ -171,41 +183,48 @@ async function loadShoes(){
   const products=await res.json()
   const container=document.getElementById("shoeList")
   container.innerHTML=""
-
-  products.forEach(p=>{
+  products.forEach((p,i)=>{
     productMap[p._id]=p
     if(p.category==="shoes"){
       let sizeOptions=""
-      if(p.sizes && p.sizes.length>0){
+      if(p.sizes&&p.sizes.length>0){
         p.sizes.forEach(s=>{
-          if(s.stock>0) sizeOptions+=`<option value="${s.size}">${s.size} (Stock:${s.stock})</option>`
+          if(s.stock>0)sizeOptions+=`<option value="${s.size}">${s.size} (${s.stock} left)</option>`
         })
       }
-      container.innerHTML+=`
-        <div class="product">
-          <a href="http://localhost:5000/product-${p._id}.html" style="text-decoration:none;color:inherit;">
-            <img src="${p.image}">
-            <b>${p.name}</b>
+      const card=document.createElement("div")
+      card.className="product-card"
+      card.innerHTML=`
+        <a href="http://localhost:5000/product-${p._id}.html" style="text-decoration:none;color:inherit;">
+          <div class="product-img-wrap">
+            <div class="product-badge">Shoes</div>
+            <img src="${p.image}" alt="${p.name}">
+          </div>
+          <div class="product-info" style="padding-bottom:0">
+            <div class="product-name">${p.name}</div>
             <div class="product-price">₹${p.price}</div>
-          </a>
-          <div class="product-bottom">
-            <select id="size-${p._id}">${sizeOptions}</select>
-            <button onclick="buy('${p._id}')">Buy Now</button>
-            <button onclick="addToCart('${p._id}')">Add to Cart</button>
+          </div>
+        </a>
+        <div class="product-info" style="padding-top:8px">
+          <select class="size-select" id="size-${p._id}">${sizeOptions||'<option>No sizes</option>'}</select>
+          <div class="btn-row">
+            <button class="btn-buy" onclick="buy('${p._id}')">Buy Now</button>
+            <button class="btn-cart" onclick="addToCart('${p._id}')">+ Cart</button>
           </div>
         </div>`
+      container.appendChild(card)
     }
   })
 }
 
-loadShoes()
-
 document.getElementById("search").addEventListener("input",function(){
-  let value=this.value.toLowerCase()
-  document.querySelectorAll(".product").forEach(card=>{
-    card.style.display=card.innerText.toLowerCase().includes(value)?"":"none"
+  const v=this.value.toLowerCase()
+  document.querySelectorAll(".product-card").forEach(c=>{
+    c.style.display=c.innerText.toLowerCase().includes(v)?"":"none"
   })
 })
+
+loadShoes()
 </script>
 </body>
 </html>

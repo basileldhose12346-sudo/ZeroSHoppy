@@ -176,6 +176,28 @@ body{font-family:"Poppins",sans-serif;background:var(--bg);}
   padding:6px 14px;background:#dcfce7;color:#16a34a;
   border:none;border-radius:6px;font-family:Poppins;font-size:12px;font-weight:600;cursor:pointer;
 }
+.btn-edit{
+  padding:6px 14px;background:#e0f0ff;color:#0066cc;
+  border:none;border-radius:6px;font-family:Poppins;font-size:12px;font-weight:600;cursor:pointer;
+}
+
+/* EDIT MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:3000;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:#fff;border-radius:14px;padding:32px;width:540px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.2);}
+.modal h3{font-family:"Barlow Condensed",sans-serif;font-size:24px;font-weight:800;text-transform:uppercase;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid var(--dark);display:flex;justify-content:space-between;align-items:center;}
+.modal-close{font-size:20px;cursor:pointer;opacity:0.5;font-family:Poppins;font-weight:400;}
+.modal-close:hover{opacity:1;}
+.modal .form-group{margin-bottom:14px;}
+.modal .form-group label{display:block;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.modal .form-group input,.modal .form-group select,.modal .form-group textarea{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:Poppins;font-size:14px;outline:none;}
+.modal .form-group textarea{resize:vertical;min-height:80px;}
+.modal .size-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:8px;}
+.modal .size-item label{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:4px;}
+.modal-btns{display:flex;gap:10px;margin-top:20px;}
+.modal-save{flex:1;padding:11px;background:var(--dark);color:#fff;border:none;border-radius:8px;font-family:Poppins;font-size:14px;font-weight:600;cursor:pointer;}
+.modal-save:hover{background:#333;}
+.modal-cancel{padding:11px 20px;background:#f0f0ee;color:var(--dark);border:none;border-radius:8px;font-family:Poppins;font-size:14px;font-weight:600;cursor:pointer;}
 
 /* TOAST */
 .toast{
@@ -323,6 +345,47 @@ body{font-family:"Poppins",sans-serif;background:var(--bg);}
   </div>
 </div>
 
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <h3>Edit Product <span class="modal-close" onclick="closeEdit()">✕</span></h3>
+    <input type="hidden" id="editId">
+    <div class="form-group">
+      <label>Product Name</label>
+      <input id="editName" placeholder="Product name">
+    </div>
+    <div class="form-group">
+      <label>Price (₹)</label>
+      <input id="editPrice" type="number" placeholder="Price">
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="editDesc" placeholder="Description"></textarea>
+    </div>
+    <div id="editShoeStock">
+      <div class="form-group">
+        <label>Size-wise Stock</label>
+        <div class="size-grid">
+          <div class="size-item"><label>Size 7</label><input id="es7" type="number" placeholder="0"></div>
+          <div class="size-item"><label>Size 8</label><input id="es8" type="number" placeholder="0"></div>
+          <div class="size-item"><label>Size 9</label><input id="es9" type="number" placeholder="0"></div>
+          <div class="size-item"><label>Size 10</label><input id="es10" type="number" placeholder="0"></div>
+        </div>
+      </div>
+    </div>
+    <div id="editWatchStock">
+      <div class="form-group">
+        <label>Stock Quantity</label>
+        <input id="editStock" type="number" placeholder="Stock">
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="modal-save" onclick="saveEdit()">Save Changes</button>
+      <button class="modal-cancel" onclick="closeEdit()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <script>
 function show(id, btn){
   document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"))
@@ -366,16 +429,23 @@ function previewImages(event){
   selectedFiles = files
   const grid = document.getElementById("previewGrid")
   grid.innerHTML = ""
-  files.forEach((file,i)=>{
+
+  // Pre-create slots in order so Primary badge always stays on slot 0
+  const items = files.map((file, i) => {
+    const item = document.createElement("div")
+    item.className = "preview-item"
+    item.innerHTML = i===0 ? '<div class="primary-badge">Primary</div>' : ''
+    grid.appendChild(item)
+    return item
+  })
+
+  // Load each file into its pre-created slot
+  files.forEach((file, i) => {
     const reader = new FileReader()
     reader.onload = e => {
-      const item = document.createElement("div")
-      item.className = "preview-item"
-      item.innerHTML = `
-        <img src="${e.target.result}">
-        ${i===0 ? '<div class="primary-badge">Primary</div>' : ''}
-      `
-      grid.appendChild(item)
+      const img = document.createElement("img")
+      img.src = e.target.result
+      items[i].insertBefore(img, items[i].firstChild)
     }
     reader.readAsDataURL(file)
   })
@@ -449,6 +519,7 @@ async function loadProducts(){
       </div>
       <div class="card-actions">
         <a href="http://localhost:5000/product-${p._id}.html" target="_blank" class="btn-view">View Page</a>
+        <button class="btn-edit" onclick="openEdit('${p._id}')">Edit</button>
         <button class="btn-delete" onclick="deleteProduct('${p._id}')">Delete</button>
       </div>
     </div>`
@@ -464,6 +535,82 @@ async function deleteProduct(id){
 }
 
 /* LOAD USERS */
+/* EDIT PRODUCT */
+let editingProduct = null
+
+function openEdit(id){
+  // Find product from loaded list
+  fetch("http://localhost:5000/api/products")
+    .then(r=>r.json())
+    .then(products=>{
+      const p = products.find(x=>x._id===id)
+      if(!p) return
+      editingProduct = p
+      document.getElementById("editId").value = p._id
+      document.getElementById("editName").value = p.name
+      document.getElementById("editPrice").value = p.price
+      document.getElementById("editDesc").value = p.description||""
+
+      if(p.category==="shoes"){
+        document.getElementById("editShoeStock").style.display="block"
+        document.getElementById("editWatchStock").style.display="none"
+        const sizes = p.sizes||[]
+        document.getElementById("es7").value = (sizes.find(s=>s.size==7)||{}).stock||0
+        document.getElementById("es8").value = (sizes.find(s=>s.size==8)||{}).stock||0
+        document.getElementById("es9").value = (sizes.find(s=>s.size==9)||{}).stock||0
+        document.getElementById("es10").value = (sizes.find(s=>s.size==10)||{}).stock||0
+      } else {
+        document.getElementById("editShoeStock").style.display="none"
+        document.getElementById("editWatchStock").style.display="block"
+        document.getElementById("editStock").value = p.stock||0
+      }
+
+      document.getElementById("editModal").classList.add("open")
+    })
+}
+
+function closeEdit(){
+  document.getElementById("editModal").classList.remove("open")
+  editingProduct = null
+}
+
+async function saveEdit(){
+  const id = document.getElementById("editId").value
+  const p = editingProduct
+  if(!p) return
+
+  const data = {
+    name: document.getElementById("editName").value,
+    price: Number(document.getElementById("editPrice").value),
+    description: document.getElementById("editDesc").value
+  }
+
+  if(p.category==="shoes"){
+    data.sizes=[
+      {size:7,stock:Number(document.getElementById("es7").value||0)},
+      {size:8,stock:Number(document.getElementById("es8").value||0)},
+      {size:9,stock:Number(document.getElementById("es9").value||0)},
+      {size:10,stock:Number(document.getElementById("es10").value||0)}
+    ]
+  } else {
+    data.stock = Number(document.getElementById("editStock").value||0)
+  }
+
+  const res = await fetch("http://localhost:5000/api/products/"+id, {
+    method: "PUT",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify(data)
+  })
+
+  if(res.ok){
+    showToast("Product updated!")
+    closeEdit()
+    loadProducts()
+  } else {
+    showToast("Update failed", true)
+  }
+}
+
 async function loadUsers(){
   const res=await fetch("http://localhost:5000/api/users")
   const users=await res.json()

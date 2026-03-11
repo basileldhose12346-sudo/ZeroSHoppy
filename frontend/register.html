@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Register - ZeroShoppy</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
     body {
@@ -25,102 +25,83 @@
 
     /* ================= NAVBAR ================= */
     .nav{
-      background: #fff;
-      border-bottom: 1px solid #e7e7e7;
-      position: sticky;
-      top: 0;
-      z-index: 99;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      background:#fff;
+      border-bottom:1px solid #e8e8e8;
+      position:sticky;top:0;z-index:99;
     }
-
     .container{
-      max-width:1180px;
-      margin:auto;
-      padding:14px 18px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
+      max-width:1280px;margin:auto;
+      padding:0 24px;height:48px;
+      display:flex;align-items:center;justify-content:space-between;
     }
-
-    .backbtn {
-      font-size: 14px;
-      color: #555;
-      cursor: pointer;
-      padding: 6px 10px;
-      border-radius: 6px;
-      background: #eee;
-      user-select: none;
-      margin-right: 10px;
+    .backbtn{
+      font-size:12px;color:#888;cursor:pointer;
+      padding:5px 10px;border-radius:6px;
+      background:#f0f0f0;user-select:none;
+      font-family:"Poppins",sans-serif;
     }
-    .backbtn:hover { background: #ddd; }
-
+    .backbtn:hover{background:#e0e0e0;color:#0e0e0e;}
     .brand{
-      font-weight:700;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-    }
-    .brand .title{font-size:18px}
-    .brand .moto{font-size:12px;color:gray;margin-top:2px}
-
-    .nav-links{
-      display:flex;
-      gap:18px;
-    }
-    .nav-links a{
+      font-family:"Barlow Condensed",sans-serif;
+      font-size:22px;font-weight:900;
+      letter-spacing:-0.5px;color:#0e0e0e;
       text-decoration:none;
-      color:gray;
-      font-size:14px;
-      font-weight:500;
     }
+    .brand span{color:#e8000d;}
+    .nav-links{display:flex;gap:18px;}
+    .nav-links a{text-decoration:none;color:#888;font-size:13px;font-weight:500;}
+    .nav-links a:hover{color:#0e0e0e;}
 
     /* ================= FORM ================= */
     .wrapper{
-      margin-top: 120px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding: 20px;
+      margin-top:40px;
+      display:flex;align-items:center;justify-content:center;
+      padding:20px;
     }
-
-    form {
-      width: 480px;
-      background: rgba(255,255,255,0.90);
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 0 25px rgba(0,0,0,0.3);
+    form{
+      width:480px;
+      background:rgba(255,255,255,0.93);
+      padding:28px 32px;
+      border-radius:14px;
+      box-shadow:0 0 32px rgba(0,0,0,0.25);
+      box-sizing:border-box;
     }
-
-    h2 { text-align: center; margin-bottom: 20px; }
-
-    label { font-weight: 600; margin-top: 12px; display: block; }
-
-    input, textarea, select {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      font-size: 14px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+    h2{
+      font-family:"Barlow Condensed",sans-serif;
+      font-size:26px;font-weight:900;
+      text-transform:uppercase;letter-spacing:-0.5px;
+      text-align:center;margin:0 0 22px 0;
     }
-
-    .row { display: flex; gap: 10px; }
-    .row div { flex: 1; }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 20px;
-      background: #111;
-      color: white;
-      border: none;
-      font-size: 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 600;
+    label{
+      display:block;font-size:11px;font-weight:700;
+      letter-spacing:0.08em;text-transform:uppercase;
+      color:#888;margin-top:14px;margin-bottom:5px;
     }
-
-    button:hover { opacity: 0.9; }
+    input, textarea, select{
+      width:100%;
+      padding:9px 12px;
+      margin:0;
+      font-size:14px;
+      border-radius:8px;
+      border:1.5px solid #e8e8e8;
+      font-family:"Poppins",sans-serif;
+      outline:none;
+      box-sizing:border-box;
+      transition:border-color 0.2s;
+    }
+    input:focus, textarea:focus, select:focus{border-color:#0e0e0e;}
+    .row{display:flex;gap:12px;}
+    .row > div{flex:1;}
+    button{
+      width:100%;padding:11px;
+      margin-top:22px;
+      background:#111;color:white;
+      border:none;font-size:14px;
+      border-radius:8px;cursor:pointer;
+      font-weight:600;font-family:"Poppins",sans-serif;
+      transition:background 0.2s;
+    }
+    button:hover{background:#333;}
   </style>
 </head>
 
@@ -130,19 +111,12 @@
 
 <!-- ================= NAVBAR ================= -->
 <header class="nav">
-  <div class="container nav-inner">
-
+  <div class="container">
     <span class="backbtn" onclick="history.back()">⬅ Back</span>
-
-    <div class="brand">
-      <span class="title">ZeroShoppy</span>
-      <span class="moto">Best Quality for Best Price</span>
-    </div>
-
+    <a href="#" class="brand">ZERO<span>S</span>HOPPY</a>
     <nav class="nav-links">
       <a href="http://localhost:5000/login.html">Login</a>
     </nav>
-
   </div>
 </header>
 
